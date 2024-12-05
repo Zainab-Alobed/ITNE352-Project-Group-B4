@@ -12,7 +12,7 @@ BASE_URL = "https://newsapi.org/v2"
 # headline search function
 def get_headlines(option, value):
     # pass api key
-    params = {"apiKey": API_KEY}
+    params = {"apiKey": API_KEY, "pageSize": 15}
 
     #check choosen option
     if option == "keywords":
@@ -32,7 +32,7 @@ def get_headlines(option, value):
 # resource search function
 def get_sources(option, value):
     # pass api key
-    params = {"apiKey": API_KEY}
+    params = {"apiKey": API_KEY, "pageSize": 15}
 
     #check choosen option
     if option == "category":
@@ -77,58 +77,87 @@ def search(sock):
                 
             except Exception as e:
                 print(f"Error receiving or processing data: {e}")
-                break
+                continue
             #if client choosed to quit
             if data[0] == 'Quit':
                 break
             
             #split the id th know the exact option the client choosed
             list=data[0].strip() #resource or headline
-            option=data[1].strip() #search with what
-
-            #if the user wants all resources/headlines he will not enter any value
-            if option == 'all':
-                value=''
-                print(f"client {client_name} requested to search for all {list}")
-            else:
-                value = data[2].strip()
-                print(f"client {client_name} requested to search for {list} by {option} ({value})")
+            option=data[1].strip() #search with what (category/language....)
 
             # get the list depending on the client choice headline/source
-            if list == 'Headlines':
-                response = get_headlines(option, value)
+            if list == 'headlines':
+                #endpoint for all headlines is defferent
+                if option == 'all': 
+                    print(f"client {client_name} requested to search for all {list}")
+                    params = {"apiKey": API_KEY,
+                               "pageSize": 15 ,
+                               "language": "en",
+                               "q": "news"
+                               }
+                    response = requests.get(f"{BASE_URL}/everything", params = params)
+                    response = response.json()
+                else:
+                    value = data[2].strip()
+                    print(f"client {client_name} requested to search for {list} by {option} ({value})")
+                    response = get_headlines(option, value)
                 response = response.get("articles", [])
 
             elif list == "sources":
+                if option == 'all':
+                    print(f"client {client_name} requested to search for all {list}")
+                    value=''
+                else:
+                    value = data[2].strip()
+                    print(f"client {client_name} requested to search for {list} by {option} ({value})")
                 response = get_sources(option, value)
                 response = response.get("sources", [])
 
             # send list if there is or send no result message
             if response:
-                response = response[:15]  #send only 15 results
-                sock.sendall(json.dumps(response).encode('utf-8'))
+                response = response[:15]  #only 15 results
+
+                #prepare the list of headlines/sources
+                prepared_list = []
+
+                for x in response:
+                    if list == 'headlines':
+                        prepared_list.append({
+                            "name":x['source'].get('name','unknown'),
+                            "author":x.get('author','unknown'),
+                            "title":x.get('title','unkown')
+                            })
+                    
+                    else: #sources
+                        prepared_list.append({
+                            "name":x.get('name','unknown')
+                            })
+
+
+                sock.sendall(json.dumps(prepared_list).encode('utf-8'))
 
                 #save the result in json file
                 safe_client_name = re.sub(r'[^\w]', '_', client_name)
                 file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
                 with open(file_name, 'w') as file:
-                    json.dump(response, file, indent=4)
+                    json.dump(prepared_list, file, indent=4)
             
             else:
                 sock.sendall("no result".encode('utf-8'))
-                continue
+                
 
-            #getting client response after displaying the sources/articles list
+            #getting client response after displaying the sources/headline list
             select = sock.recv(1024).decode('utf-8')
 
-            # if the client did not choose a specific article/source from the list
+            # if the client did not choose a specific headline/source from the list
             if select == 'back':
                 continue
             # return the article chosen by the client
             elif select.isdigit() and 1 <= int(select) <= len(response):
                 sock.sendall(json.dumps(response[int(select) - 1]).encode('utf-8'))
             else:
-                sock.sendall("invalid".encode('utf-8'))
+                sock.sendall("invalid input/numper".encode('utf-8'))
                 continue
 
     finally:
@@ -140,7 +169,7 @@ def main():
     # create a socket
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((get_local_ip(), 49999))
+        server_socket.bind((get_local_ip(), 5353))
         server_socket.listen(3)
         print("Server is listening...")
     except Exception as e:
