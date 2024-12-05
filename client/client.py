@@ -1,10 +1,22 @@
 import socket, json
 # Create a socket and connect to the server (IPV4) (TCP)
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
-    cs.connect(("192.168.56.1", 5353))
+    
+   def get_local_ip():
+    try:
+        # Connect to an external server to get the local IP
+        hostname = "8.8.8.8"  # Google's public DNS server
+        port = 80
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect((hostname, port))
+            ip_address = s.getsockname()[0]
+        return ip_address
+    except Exception as e:
+        return f"Error retrieving IP: {e}"
+    
 # Ask the userto enter its name, and send it to the server
     user_name = input("Hi\n Enter your name: ").strip()  
-    cs.sendall(user_name.encode('ascii'))  
+    cs.sendall(user_name.encode('utf-8'))  
 
     print(f"Welcome {user_name}!\n")
 
@@ -52,7 +64,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
         
         # If user selects 'Quit', close connection and exit
         if main_selection == '3':  
-            cs.sendall(main_desc.encode('ascii'))  
+            cs.sendall(main_desc.encode('utf-8'))  
             print("Exiting... Goodbye")
             exit()
 
@@ -105,14 +117,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
             # Construct request based on selected option
             elif sources_selection == '4':
                 request=f"{main_desc},{source_desc}"
-                
+
             else:
             
                 value = input(f"Enter the {source_desc} to search for:\n").strip() 
                 request = f"{main_desc},{source_desc},{value}"
 
          # Send the request to the server
-        cs.sendall(request.encode('ascii'))
+        cs.sendall(request.encode('utf-8'))
 
         # Receive the server's response
         response = cs.recv(4096).decode('utf-8')
@@ -130,22 +142,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
                 print("source name:")
 
             counter = 1  
-            for key, value in dict.items():  
-                print(f"\n{counter}. ")  
-                counter += 1  
+            for article in dict:  
+                if main_selection == '2':  # Headlines menu
+                    print(f"{counter}. {article['name']} - {article['author']} - {article['title']}")
 
-                # Print details of the article depending on the menu selection (headlines or sources)
-                if main_selection == '2':
-                    if key == 'name':
-                        print(value, "-")
-                    if key == 'author':
-                        print(value, "-")
-                    if key == 'title':
-                        print(value)
+                elif main_selection == '1':  # sources menu
+                    print(f"{counter}. {article['name']}")
 
-                elif main_selection == '1':
-                    if key == 'name':
-                        print(value)
+                counter += 1
 
             print("\n",n,". Back to the main menu")
         # Otherwise: it is not a JSON response which means invalid category, or country, or language
@@ -155,15 +159,23 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
         # Allow the user to select an article to provide its details or go back to the main menu
         article_selection=input("Select the number of desired detailed article: ").strip()
         if int(article_selection) == n:
-            cs.sendall("back".encode('ascii'))
+            cs.sendall("back".encode('utf-8'))
             break
         else:
-            cs.sendall(article_selection.encode('ascii'))
+            cs.sendall(article_selection.encode('utf-8'))
 
         # Receive detailed response for the selected article
-        detailed_response=cs.recv(4096).decode('utf-8')
-        detailed_response_dict = json.loads(detailed_response)
+        try:
+            detailed_response = cs.recv(4096).decode('utf-8')
+            detailed_response_dict = json.loads(detailed_response)
 
-        # Print detailed information for the selected article
-        for key, value in detailed_response_dict.items():
-            print(f"{key}: {value}")
+            # Print detailed information for the selected article
+            for key, value in detailed_response_dict[0].items():
+                if key == "source" and "name" in value:
+                    source_name = value["name"]
+                    print("name:", source_name)
+                else:
+                    print(f"{key}: {value}")
+
+        except json.JSONDecodeError:
+            print(response)
