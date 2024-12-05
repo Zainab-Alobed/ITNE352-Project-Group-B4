@@ -59,74 +59,57 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
         # headlines submenu if user selects option 1
         if main_selection == '1': 
 
-            while True:
-                for id, option in Headlines.items():
-                    print(f"{id} - {option}")
+            for id, option in Headlines.items():
+                print(f"{id} - {option}")
 
-                # Get selection for headlines submenu
-                Headlines_selection = input("Select your option:\n").strip() 
+            # Get selection for headlines submenu
+            Headlines_selection = input("Select your option:\n").strip() 
 
-                if Headlines_selection in Headlines:
-                    Headlines_desc = Headlines[Headlines_selection]
-                else:
-                    print("Invalid selected number! Try again please.")
-                    continue
+            if Headlines_selection in Headlines:
+                Headlines_desc = Headlines[Headlines_selection]
+            else:
+                print("Invalid selected number! Try again please.")
+                continue
+            
+            # If user selects 5 'main', break back to main menu
+            if Headlines_selection == '5':  
+                break
+
+            # Construct request based on selected option
+            elif Headlines_selection == '4':
+                request=f"{main_desc},{Headlines_desc}"
+
+            else:  
+                value = input(f"Enter the {Headlines_desc} to search for:\n").strip() 
+                request = f"{main_desc},{Headlines_desc},{value}"
                 
-                # If user selects 5 'main', break back to main menu
-                if Headlines_selection == '5':  
-                    break
-
-                # Construct request based on selected option
-                elif Headlines_selection == '1':  
-                    keywords = input("Enter the keyword to search for:\n").strip() 
-                    request = f"{main_desc},{Headlines_desc},{keywords}"
-                      
-                elif Headlines_selection == '2':  
-                    category = input("Enter the category to search for:\n").strip()   
-                    request = f"{main_desc},{Headlines_desc},{category}"
-                    
-                elif Headlines_selection == '3':  
-                    country = input("Enter the country to search for:\n").strip() 
-                    request = f"{main_desc},{Headlines_desc},{country}"
-                
-                elif Headlines_selection == '4':  
-                    request = f"{main_desc},{Headlines_desc}"
-                    
         # sources submenu if user selects option 2
         elif main_selection == '2':  
 
-            while True:
-                for id, option in sources.items():
-                    print(f"{id} - {option}")  
+            for id, option in sources.items():
+                print(f"{id} - {option}")  
 
-                # Get selection for sources submenu
-                sources_selection = input("Select your option:\n").strip() 
+            # Get selection for sources submenu
+            sources_selection = input("Select your option:\n").strip() 
 
-                if sources_selection in sources:
-                    source_desc=sources[sources_selection]
-                else:
-                     print("Invalid selected number! Try again please.")
-                     continue
+            if sources_selection in sources:
+                source_desc=sources[sources_selection]
+            else:
+                    print("Invalid selected number! Try again please.")
+                    continue
 
-                # If user selects 5 'main', break back to main menu
-                if sources_selection == '5':  
-                    break
+            # If user selects 5 'main', break back to main menu
+            if sources_selection == '5':  
+                break
+
+            # Construct request based on selected option
+            elif sources_selection == '4':
+                request=f"{main_desc},{source_desc}"
                 
-                # Construct request based on selected option
-                elif sources_selection == '1':
-                    category = input("Enter the category to search for:\n").strip()   
-                    request = f"{main_desc},{source_desc},{category}"
-
-                elif sources_selection == '2':
-                    country = input("Enter the country to search for:\n").strip() 
-                    request = f"{main_desc},{source_desc},{country}"
-
-                elif sources_selection == '3':
-                    lan = input("Enter the language to search for:\n").strip() 
-                    request = f"{main_desc},{Headlines_desc},{lan}"
-
-                elif sources_selection == '4':
-                    request = f"{main_desc},{source_desc}"
+            else:
+            
+                value = input(f"Enter the {source_desc} to search for:\n").strip() 
+                request = f"{main_desc},{source_desc},{value}"
 
          # Send the request to the server
         cs.sendall(request.encode('ascii'))
@@ -171,10 +154,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
 
         # Allow the user to select an article to provide its details or go back to the main menu
         article_selection=input("Select the number of desired detailed article: ").strip()
-        if article_selection > n or article_selection < 1:
-            print("Invalid selected number! Try again please.")
-            continue
-        elif article_selection == n:
+        if int(article_selection) == n:
             cs.sendall("back".encode('ascii'))
             break
         else:
