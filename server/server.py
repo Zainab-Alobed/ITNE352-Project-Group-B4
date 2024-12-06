@@ -62,17 +62,27 @@ def get_local_ip():
     except Exception as e:
         return f"Error retrieving IP: {e}"
 
+def receive_complete_data(socket):
+    buffer_size = 4096
+    data = b""
+    while True:
+        part = socket.recv(buffer_size)
+        data += part
+        if len(part) < buffer_size:
+            break
+    return data.decode('utf-8')
+
 # main thread
 def search(sock):
     try:
         # recieve client name and print it
-        client_name = sock.recv(1024).decode('utf-8')
+        client_name = receive_complete_data(sock)
         print(f"Connected to {client_name}")
 
         while True:
             # get a request from the client
             try:
-                data = sock.recv(1024).decode('utf-8')
+                data = receive_complete_data(sock)
                 data = data.split(',')
                 
             except Exception as e:
@@ -141,18 +151,20 @@ def search(sock):
                 safe_client_name = re.sub(r'[^\w]', '_', client_name)
                 file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
                 with open(file_name, 'w') as file:
-                    json.dump(prepared_list, file, indent=4)
+                    json.dump(prepared_list, file, ensure_ascii=False, indent=4)
             
             else:
                 sock.sendall("no result".encode('utf-8'))
                 
 
             #getting client response after displaying the sources/headline list
-            select = sock.recv(1024).decode('utf-8')
+            select = receive_complete_data(sock)
 
             # if the client did not choose a specific headline/source from the list
             if select == 'back':
                 continue
+            if select == 'Quit':
+                break
             # return the article chosen by the client
             elif select.isdigit() and 1 <= int(select) <= len(response):
                 sock.sendall(json.dumps(response[int(select) - 1]).encode('utf-8'))
