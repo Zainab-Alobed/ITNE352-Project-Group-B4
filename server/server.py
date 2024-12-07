@@ -173,16 +173,20 @@ def search(sock):
             select = receive_complete_data(sock).strip()
 
             # if the client did not choose a specific headline/source from the list
-            if select == 'back':
-                continue
             if select == 'Quit':
                 break
+            if select == 'back':
+                continue
+            
             # return the article chosen by the client
             elif select.isdigit() and 1 <= int(select) <= len(res):
                 sock.sendall(json.dumps(res[int(select) - 1], ensure_ascii=False).encode('utf-8'))
             else:
                 sock.sendall("Sorry! invalid selection.".encode('utf-8'))
                 continue
+
+    except Exception:
+        print(f"Error in connetion with {client_name}")
 
     finally:
         #close the socket
