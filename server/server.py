@@ -10,6 +10,7 @@ import os
 API_KEY = "4abb7da35b8346dfa7f1f20b5bc353e7"
 #newaAPI link
 BASE_URL = "https://newsapi.org/v2"
+
 #for SSL/TLS
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
@@ -80,7 +81,7 @@ def receive_complete_data(socket):
     return data.decode('utf-8')
 
 def create_file(client_name,response,list,option):
-    #ensre there is no spase or special character in client name and file name
+    #ensre there is no space or special character in client name and file name
     safe_client_name = re.sub(r'[^\w]', '_', client_name)
     file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
     with open(file_name, 'w', encoding='utf-8') as file:
@@ -164,11 +165,10 @@ def search(sock):
 
                 sock.sendall(json.dumps(prepared_list).encode('utf-8'))
             
-            else:
+            else: #if no result from API
                 sock.sendall("No results found. Please try agaim".encode('utf-8'))
                 continue
                 
-
             #getting client response after displaying the sources/headline list
             select = receive_complete_data(sock).strip()
 
@@ -194,6 +194,7 @@ def main():
         # craete SSL context
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
+
         # create a socket
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
             server_socket.bind((get_local_ip(), 5353))
@@ -222,5 +223,6 @@ def main():
                 print("Server is closing")
     except Exception as e:
         print(f"Error starting server: Please check the certificate and key files: {e}")
+
 if __name__ == "__main__":
    main()
