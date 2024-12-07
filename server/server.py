@@ -79,12 +79,19 @@ def receive_complete_data(socket):
             break
     return data.decode('utf-8')
 
+def create_file(client_name,response,list,option):
+    #ensre there is no spase or special character in client name and file name
+    safe_client_name = re.sub(r'[^\w]', '_', client_name)
+    file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
+    with open(file_name, 'w', encoding='utf-8') as file:
+        json.dump(response, file, ensure_ascii=False, indent=4) 
+
 # main thread
 def search(sock):
     try:
         # recieve client name and print it
         client_name = receive_complete_data(sock)
-        print(f"Connected to {client_name}")
+        print(f"New client connected {client_name}. Awating requests...")
 
         while True:
             # get a request from the client
@@ -119,7 +126,7 @@ def search(sock):
                     value = data[2].strip()
                     print(f"client {client_name} requested to search for {list} by {option} ({value})")
                     response = get_headlines(option, value)
-                response = response.get("articles", [])
+                res = response.get("articles", [])
 
             elif list == "sources":
                 if option == 'all':
@@ -129,16 +136,19 @@ def search(sock):
                     value = data[2].strip()
                     print(f"client {client_name} requested to search for {list} by {option} ({value})")
                 response = get_sources(option, value)
-                response = response.get("sources", [])
+                res = response.get("sources", [])
+            
+            #save the result in json file
+            create_file(client_name,response,list,option)
 
             # send list if there is or send no result message
-            if response:
-                response = response[:15]  #only 15 results
+            if res:
+                res = res[:15]  #only 15 results
 
                 #prepare the list of headlines/sources
                 prepared_list = []
 
-                for x in response:
+                for x in res:
                     if list == 'headlines':
                         prepared_list.append({
                             "name":x['source'].get('name','unknown'),
@@ -153,19 +163,14 @@ def search(sock):
 
 
                 sock.sendall(json.dumps(prepared_list).encode('utf-8'))
-
-                #save the result in json file
-                safe_client_name = re.sub(r'[^\w]', '_', client_name)
-                file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
-                with open(file_name, 'w') as file:
-                    json.dump(response, file, ensure_ascii=False, indent=4) 
             
             else:
                 sock.sendall("No results found. Please try agaim".encode('utf-8'))
+                continue
                 
 
             #getting client response after displaying the sources/headline list
-            select = receive_complete_data(sock)
+            select = receive_complete_data(sock).strip()
 
             # if the client did not choose a specific headline/source from the list
             if select == 'back':
@@ -173,8 +178,8 @@ def search(sock):
             if select == 'Quit':
                 break
             # return the article chosen by the client
-            elif select.isdigit() and 1 <= int(select) <= len(response):
-                sock.sendall(json.dumps(response[int(select) - 1]).encode('utf-8'))
+            elif select.isdigit() and 1 <= int(select) <= len(res):
+                sock.sendall(json.dumps(res[int(select) - 1], ensure_ascii=False).encode('utf-8'))
             else:
                 sock.sendall("Sorry! invalid selection.".encode('utf-8'))
                 continue
@@ -182,7 +187,7 @@ def search(sock):
     finally:
         #close the socket
         sock.close()
-        print(f"disconnecting with {client_name}")
+        print(f"Client {client_name} has disconnected.")
 
 def main():
     try:
@@ -216,6 +221,6 @@ def main():
                     
                 print("Server is closing")
     except Exception as e:
-        print(f"Error starting server: {e}")
+        print(f"Error starting server: Please check the certificate and key files: {e}")
 if __name__ == "__main__":
    main()
