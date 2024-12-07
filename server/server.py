@@ -3,11 +3,16 @@ import socket
 import json
 import threading
 import requests
+import ssl
 
 # API Key for NewsAPI
 API_KEY = "4abb7da35b8346dfa7f1f20b5bc353e7"
 #newaAPI link
 BASE_URL = "https://newsapi.org/v2"
+#for SSL/TLS
+CERT_FILE="../project.crt"
+KE_FILE="../project.key"
+
 
 # headline search function
 def get_headlines(option, value):
@@ -182,6 +187,7 @@ def main():
     try:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((get_local_ip(), 5353))
+        server_socket = ssl.wrap_socket(server_socket, certfile = CERT_FILE, keyfile = KE_FILE, server_side=True)
         server_socket.listen(3)
         print("Server is listening...")
     except Exception as e:
