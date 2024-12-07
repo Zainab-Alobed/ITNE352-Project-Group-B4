@@ -2,11 +2,14 @@ import socket
 import json
 import ssl 
 import os
+import signal
+import sys
 
 #for SSL/TLS
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
+cs=None
 
 def get_local_ip():
     try:
@@ -33,7 +36,7 @@ def receive_complete_data(socket):
             break
     return data.decode('utf-8')
 
-def main(cs):  
+def connection(cs):  
     # Ask the user to enter its name, and send it to the server
     user_name = input("Hi\nEnter your name: ").strip()  
     cs.sendall(user_name.encode('utf-8'))  
@@ -238,8 +241,9 @@ def main(cs):
         except json.JSONDecodeError:
             print(detailed_response)
 
-if __name__ == "__main__":
-    # Create an SSL context to configure the connection's security settings.
+
+def main():
+     # Create an SSL context to configure the connection's security settings.
     context = ssl.create_default_context()
     
     context.check_hostname = False # Disable hostname verification
@@ -247,13 +251,14 @@ if __name__ == "__main__":
     context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
 
     # Create a TCP socket using IPv4 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
-        with context.wrap_socket(cs, server_hostname="myserver") as cs:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_s:
+        global cs
+        with context.wrap_socket(client_s, server_hostname="myserver") as cs:
             try:
                 cs.connect((get_local_ip(), 5353))
                 
                 if isinstance(cs, socket.socket):
-                    main(cs)
+                    connection(cs)
 
              # Handle SSL-related errors
             except ssl.SSLError as ssl_err:
@@ -267,3 +272,23 @@ if __name__ == "__main__":
             # Catch and print any other exceptions that might occur during execution.
             except Exception as e:
                 print(f"Error: {e}")
+
+
+#safely close connection
+def close_session(signal_received, frame):
+
+   try:
+       cs.sendall("Quit".encode('utf-8'))  
+       print("\nSession closed. Goodbye!")
+   except Exception as e:
+       print(f"Error while closing session: {e}")
+   finally:
+       sys.exit(0)  
+
+
+if __name__ == "__main__":
+    try:
+       main()
+     # handle a user interrupt (Ctrl+C).
+    except KeyboardInterrupt:
+        close_session()
