@@ -1,9 +1,11 @@
 import socket
 import json
 import ssl 
+import os
 
-CERT_FILE = r"project/ITNE352-Project-Group-B4/project.crt"
-KEY_FILE = r"C:\uni_codes\python352\project\ITNE352-Project-Group-B4\project.key" 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
+CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
+KEY_FILE = os.path.join(BASE_DIR, "../project.key")
 def get_local_ip():
     try:
         # Connect to an external server to get the local IP
