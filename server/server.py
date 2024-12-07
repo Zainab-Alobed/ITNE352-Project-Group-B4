@@ -16,8 +16,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
 
-
-# headline search function
+# headline search function with filltering
 def get_headlines(option, value):
     # pass api key
     params = {"apiKey": API_KEY, "pageSize": 15}
@@ -36,6 +35,20 @@ def get_headlines(option, value):
         print(f"Error with API: {response.status_code}, {response.text}")
         return {"error": "API error"}
     return response.json()
+
+# all headlines search function
+def get_all_headlines():
+    params = {"apiKey": API_KEY,
+            "pageSize": 15 ,
+            "language": "en",
+            "q": "news"
+            }
+    response = requests.get(f"{BASE_URL}/everything", params = params)
+    if response.status_code != 200:
+        print(f"Error with API: {response.status_code}, {response.text}")
+        return {"error": "API error"}
+    return response.json()
+
 
 # resource search function
 def get_sources(option, value):
@@ -57,18 +70,33 @@ def get_sources(option, value):
         return {"error": "API error"}
     return response.json()
 
-# get local ip address
-def get_local_ip():
-    try:
-        # Connect to an external server to get the local IP
-        hostname = "8.8.8.8"  # Google's public DNS server
-        port = 80
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
-            s.connect((hostname, port))
-            ip_address = s.getsockname()[0]
-        return ip_address
-    except Exception as e:
-        return f"Error retrieving IP: {e}"
+def create_file(client_name,response,list,option):
+    #ensre there is no space or special character in client name and file name
+    safe_client_name = re.sub(r'[^\w]', '_', client_name)
+    file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
+    with open(file_name, 'w', encoding='utf-8') as file:
+        json.dump(response, file, ensure_ascii=False, indent=4) 
+
+#prepare the list of headlines/sources
+def prepare_list(res,list):
+    res = res[:15]  #only 15 results
+
+    prepared_list = []
+
+    for x in res:
+        if list == 'headlines':
+            prepared_list.append({
+                "name":x['source'].get('name','unknown'),
+                "author":x.get('author','unknown'),
+                "title":x.get('title','unkown')
+                })
+        
+        else: #sources
+            prepared_list.append({
+                "name":x.get('name','unknown')
+                })
+            
+    return prepared_list
 
 def receive_complete_data(socket):
     buffer_size = 4096
@@ -79,13 +107,6 @@ def receive_complete_data(socket):
         if len(part) < buffer_size:
             break
     return data.decode('utf-8')
-
-def create_file(client_name,response,list,option):
-    #ensre there is no space or special character in client name and file name
-    safe_client_name = re.sub(r'[^\w]', '_', client_name)
-    file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
-    with open(file_name, 'w', encoding='utf-8') as file:
-        json.dump(response, file, ensure_ascii=False, indent=4) 
 
 # main thread
 def search(sock):
@@ -116,13 +137,7 @@ def search(sock):
                 #endpoint for all headlines is defferent
                 if option == 'all': 
                     print(f"client {client_name} requested to search for all {list}")
-                    params = {"apiKey": API_KEY,
-                               "pageSize": 15 ,
-                               "language": "en",
-                               "q": "news"
-                               }
-                    response = requests.get(f"{BASE_URL}/everything", params = params)
-                    response = response.json()
+                    response = get_all_headlines()
                 else:
                     value = data[2].strip()
                     print(f"client {client_name} requested to search for {list} by {option} ({value})")
@@ -142,27 +157,10 @@ def search(sock):
             #save the result in json file
             create_file(client_name,response,list,option)
 
-            # send list if there is or send no result message
+            # prepare and send a list to respond, or send no result message
             if res:
-                res = res[:15]  #only 15 results
-
-                #prepare the list of headlines/sources
-                prepared_list = []
-
-                for x in res:
-                    if list == 'headlines':
-                        prepared_list.append({
-                            "name":x['source'].get('name','unknown'),
-                            "author":x.get('author','unknown'),
-                            "title":x.get('title','unkown')
-                            })
-                    
-                    else: #sources
-                        prepared_list.append({
-                            "name":x.get('name','unknown')
-                            })
-
-
+                
+                prepared_list =prepare_list(res,list)
                 sock.sendall(json.dumps(prepared_list).encode('utf-8'))
             
             else: #if no result from API
@@ -193,6 +191,19 @@ def search(sock):
         sock.close()
         print(f"Client {client_name} has disconnected.")
 
+# get local ip address
+def get_local_ip():
+    try:
+        # Connect to an external server to get the local IP
+        hostname = "8.8.8.8"  # Google's public DNS server
+        port = 80
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect((hostname, port))
+            ip_address = s.getsockname()[0]
+        return ip_address
+    except Exception as e:
+        return f"Error retrieving IP: {e}"
+    
 def main():
     try:
         # craete SSL context
