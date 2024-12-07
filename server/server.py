@@ -4,14 +4,16 @@ import json
 import threading
 import requests
 import ssl
+import os
 
 # API Key for NewsAPI
 API_KEY = "4abb7da35b8346dfa7f1f20b5bc353e7"
 #newaAPI link
 BASE_URL = "https://newsapi.org/v2"
 #for SSL/TLS
-CERT_FILE="../project.crt"
-KE_FILE="../project.key"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
+CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
+KEY_FILE = os.path.join(BASE_DIR, "../project.key")
 
 
 # headline search function
@@ -156,10 +158,10 @@ def search(sock):
                 safe_client_name = re.sub(r'[^\w]', '_', client_name)
                 file_name = f"{safe_client_name}_{list.replace(' ', '_')}-{option.replace(' ','_')}_B4.json"
                 with open(file_name, 'w') as file:
-                    json.dump(prepared_list, file, ensure_ascii=False, indent=4)
+                    json.dump(response, file, ensure_ascii=False, indent=4) 
             
             else:
-                sock.sendall("no result".encode('utf-8'))
+                sock.sendall("No results found. Please try agaim".encode('utf-8'))
                 
 
             #getting client response after displaying the sources/headline list
@@ -174,7 +176,7 @@ def search(sock):
             elif select.isdigit() and 1 <= int(select) <= len(response):
                 sock.sendall(json.dumps(response[int(select) - 1]).encode('utf-8'))
             else:
-                sock.sendall("invalid input/numper".encode('utf-8'))
+                sock.sendall("Sorry! invalid selection.".encode('utf-8'))
                 continue
 
     finally:
@@ -183,31 +185,37 @@ def search(sock):
         print(f"disconnecting with {client_name}")
 
 def main():
-    # create a socket
     try:
-        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server_socket.bind((get_local_ip(), 5353))
-        server_socket = ssl.wrap_socket(server_socket, certfile = CERT_FILE, keyfile = KE_FILE, server_side=True)
-        server_socket.listen(3)
-        print("Server is listening...")
+        # craete SSL context
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
+        # create a socket
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+            server_socket.bind((get_local_ip(), 5353))
+            server_socket.listen(3)
+            print("Server is listening...")
+
+            # Wrap the socket with SSL
+            with context.wrap_socket(server_socket, server_side=True) as secure_socket:
+                
+                client_count = 0
+                threads = []
+
+                #accepting connection from 3 clients
+                while True:
+                    sock, sockname = secure_socket.accept()
+                    thread = threading.Thread(target=search, args=(sock,))
+                    threads.append(thread)
+                    thread.start()
+                    client_count += 1
+                    if client_count == 3:
+                        break
+                    
+                for thread in threads:
+                    thread.join()
+                    
+                print("Server is closing")
     except Exception as e:
         print(f"Error starting server: {e}")
-        return
-        
-    # loop to accept clients' connections
-    client_count = 0
-    while True:
-        sock, sockname = server_socket.accept()
-        thread = threading.Thread(target=search, args=(sock,))
-        thread.start()
-        # count for number of clients and stop the loop when it reaches 3
-        client_count += 1
-        if client_count == 3:
-            break
-        
-    print("Server is closing")
-    # close the socket
-    server_socket.close()
-
 if __name__ == "__main__":
    main()
