@@ -3,9 +3,11 @@ import json
 import ssl 
 import os
 
+#for SSL/TLS
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
+
 def get_local_ip():
     try:
         # Connect to an external server to get the local IP
@@ -18,12 +20,15 @@ def get_local_ip():
     except Exception as e:
         return f"Error retrieving IP: {e}"
 
+# to follow up with recv(), to ensure all data sent over the socket is received completely
 def receive_complete_data(socket):
     buffer_size = 4096
     data = b""
     while True:
         part = socket.recv(buffer_size)
         data += part
+        # Check if the received data is smaller than the buffer size.
+        # Which indicates that there is no more data to be received.
         if len(part) < buffer_size:
             break
     return data.decode('utf-8')
@@ -69,7 +74,7 @@ def main(cs):
         # Get user selection from main menu
         main_selection = input("Select an option: ").strip()
 
-        # Check if the selection is valid. if yes save its description, otherwise return an appropriate message
+        # Check if the selection is valid. if yes save its description, otherwise print an appropriate message
         if main_selection in main_menu:
             main_desc = main_menu[main_selection]
         else:
@@ -97,7 +102,7 @@ def main(cs):
                 print("Invalid selected number! Try again please.")
                 continue
 
-            # If user selects 5 'main', break back to main menu
+            # If user selects 5 'main', back to main menu
             if Headlines_selection == '5':
                 continue
 
@@ -128,7 +133,7 @@ def main(cs):
                 print("Invalid selected number! Try again please.")
                 continue
 
-            # If user selects 5 'main', break back to main menu
+            # If user selects 5 'main', back to main menu
             if sources_selection == '5':
                 continue
 
@@ -178,7 +183,8 @@ def main(cs):
                 counter += 1
 
             print(f"{n}. Back to the main menu\n")
-        # Otherwise: it is not a JSON response which means invalid category, or country, or language
+        # Otherwise: it is not a JSON response which means invalid category, or country, or language.
+        # Print an appropriate message.
         except json.JSONDecodeError:
             print(response)
             continue 
@@ -233,11 +239,14 @@ def main(cs):
             print(detailed_response)
 
 if __name__ == "__main__":
+    # Create an SSL context to configure the connection's security settings.
     context = ssl.create_default_context()
-    context.check_hostname = False
+    
+    context.check_hostname = False # Disable hostname verification
     context.verify_mode = ssl.CERT_NONE  # Disables certificate verification
     context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
-    
+
+    # Create a TCP socket using IPv4 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
         with context.wrap_socket(cs, server_hostname="myserver") as cs:
             try:
@@ -245,11 +254,16 @@ if __name__ == "__main__":
                 
                 if isinstance(cs, socket.socket):
                     main(cs)
+
+             # Handle SSL-related errors
             except ssl.SSLError as ssl_err:
                 print(f"SSL Error: {ssl_err}")
+
+            # اandle a user interrupt (Ctrl+C).
             except KeyboardInterrupt:
                 cs.sendall("Quit".encode('utf-8'))
                 print("Exiting... Goodbye")
                 exit()
+            # Catch and print any other exceptions that might occur during execution.
             except Exception as e:
                 print(f"Error: {e}")
