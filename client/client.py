@@ -1,6 +1,9 @@
 import socket
 import json
+import ssl 
 
+CERT_FILE = r"project/ITNE352-Project-Group-B4/project.crt"
+KEY_FILE = r"C:\uni_codes\python352\project\ITNE352-Project-Group-B4\project.key" 
 def get_local_ip():
     try:
         # Connect to an external server to get the local IP
@@ -176,6 +179,7 @@ def main(cs):
         # Otherwise: it is not a JSON response which means invalid category, or country, or language
         except json.JSONDecodeError:
             print(response)
+            continue 
                 
         # Allow the user to select an article to provide its details or go back to the main menu
         article_selection = input("Select the number of desired detailed article: ").strip()
@@ -227,14 +231,23 @@ def main(cs):
             print(detailed_response)
 
 if __name__ == "__main__":
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs: 
-        try:
-            cs.connect((get_local_ip(), 5353))
-            if isinstance(cs, socket.socket):
-                main(cs)
-        except KeyboardInterrupt: 
-            cs.sendall("Quit".encode('utf-8')) 
-            print("Exiting... Goodbye")
-            exit()
-        except Exception as e:
-            print(f"Error: {e}")
+    context = ssl.create_default_context()
+    context.check_hostname = False
+    context.verify_mode = ssl.CERT_NONE  # Disables certificate verification
+    context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
+    
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cs:
+        with context.wrap_socket(cs, server_hostname="myserver") as cs:
+            try:
+                cs.connect((get_local_ip(), 5353))
+                
+                if isinstance(cs, socket.socket):
+                    main(cs)
+            except ssl.SSLError as ssl_err:
+                print(f"SSL Error: {ssl_err}")
+            except KeyboardInterrupt:
+                cs.sendall("Quit".encode('utf-8'))
+                print("Exiting... Goodbye")
+                exit()
+            except Exception as e:
+                print(f"Error: {e}")
