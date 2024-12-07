@@ -17,17 +17,13 @@ S1 2024-2025
 - Zainab Hasan Isa Alobed (ID: 202206986)
 
 ## Table of Contents
-1. [Title](#multithreaded-news-clientserver-information-system)
-2. [Project Description](#Project-Description)
-3. [Semester](#semester)
-4. [Group](#group)
-5. [Requirements](#requirements)
-6. [How to](#how-to-run-the-system)
-7. [The Scripts](#the-scripts)
-8. [Additional Concepts](#additional-concepts)
-9. [Acknowledgments](#acknowledgments)
-10. [Conclusion](#conclusion)
-11. [Resources](#resources)
+1. [Requirements](#requirements)
+2. [How to](#how-to-run-the-system)
+3. [The Scripts](#the-scripts)
+4. [Additional Concepts](#additional-concepts)
+5. [Acknowledgments](#acknowledgments)
+6. [Conclusion](#conclusion)
+7. [Resources](#resources)
 
 ## Requirements
 Follow these steps to set up the project locally:
@@ -35,31 +31,40 @@ Follow these steps to set up the project locally:
 1) Clone the repository:  
    ```bash
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
-
+```
 2) Install required libraries:
+    ```bash
     pip install -r required.txt
-
+```
 3) Run the server.py
-
+```bash
+    python server.py
+```
 4) Run the client.py
-
+```bash
+    python client.py
+```
 ## How to run the system:
 **Run the server:**
 
 1) Navigate to the server directory:
+```bash
     cd server
-
+```
 2) Start the server:
-    python server.py
-
+```bash
+    python server.py 
+```
 **Run the client:**
 
 1) Navigate to the client directory:
+```bash
     cd client
-
+```
 2) Start the client:
+```bash
     python client.py
-
+```
 **Interacting with the server:**
 
 1) The user will be asked about his name, and send it to the server
@@ -78,19 +83,51 @@ the user must input a valid number 1-3
 
 5) The user can select (3) Quit to terminate the program
 
-# The scripts
+## The scripts
 
 **Client script**
+- Purpose:
+interaction with server: Sends the user requests to the server and displays response.
+
+- External packages used:
+requests==2.32.3
+
+- Functions:
+
+1. Create a TCP socket using IPv4 to connect to the server
+
+2. Ask user about his name and send it to the server
+
+3. Display the main menu
+
+4. Display either (1) Headlines menu or (2) Sources menu depending on the user choice
+
+5. Send the request and recieve/display the response from the server (allow the request of detailed response)
+
 
 **Server script**
 
-# Additional Concepts
+**Additional functions that used in both client and server side**
 
-# Acknowledgments
+- get_local_ip():
+A function for retrieving the local IP of the device. 
+The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where no need for sending data, this step is just to determine which network interface is being used. 
+After creating the socket connect it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address that we need. 
+Finally, the method returns the IP address.
+
+## Additional Concepts
+
+
+**TLS\SSL (security)**
+
+
+
+
+## Acknowledgments
 We would like to thank our instructor for providing this project so we can learn how to implement a python network system.
 Moreover, a big think to NewsAPI for providing the news.
 
-# Conclusion
+## Conclusion
 This project demonstrates how secure connections, API integration, Sockects, and client-server communication can be practically implemented using a Python network application.
 
 The development of the Multithreaded News Client/Server Information System helped us learn concepts of: 
@@ -99,7 +136,7 @@ The development of the Multithreaded News Client/Server Information System helpe
 - Multi-threaded
 - client\server framework
 
-# Resources
+## Resources
 - API: https://newsapi.org/
 
 

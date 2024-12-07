@@ -69,178 +69,181 @@ def connection(cs):
     }
 
     main_selection = '1'
-    while main_selection != '3':  # Loop until the user chooses to quit
-        print("\nMain menu:")
-        for key, value in main_menu.items():
-            print(f"{key}. {value}")
+    try:
+        while main_selection != '3':  # Loop until the user chooses to quit
+            print("\nMain menu:")
+            for key, value in main_menu.items():
+                print(f"{key}. {value}")
 
-        # Get user selection from main menu
-        main_selection = input("Select an option: ").strip()
+            # Get user selection from main menu
+            main_selection = input("Select an option: ").strip()
 
-        # Check if the selection is valid. if yes save its description, otherwise print an appropriate message
-        if main_selection in main_menu:
-            main_desc = main_menu[main_selection]
-        else:
-            print("Invalid selected number! Try again.")
-            continue
-
-        # If user selects 'Quit', close connection and exit
-        if main_selection == '3':  
-            cs.sendall(main_desc.encode('utf-8'))  
-            print("Exiting... Goodbye")
-            exit()
-
-        # headlines submenu if user selects option 1
-        if main_selection == '1':
-            print("\n---- Headlines menu ----")
-            for id, option in Headlines.items():
-                print(f"{id} - {option}")
-
-            # Get selection for headlines submenu
-            Headlines_selection = input("\nSelect your option: ").strip()
-
-            if Headlines_selection in Headlines:
-                Headlines_desc = Headlines[Headlines_selection]
+            # Check if the selection is valid. if yes save its description, otherwise print an appropriate message
+            if main_selection in main_menu:
+                main_desc = main_menu[main_selection]
             else:
-                print("Invalid selected number! Try again please.")
+                print("Invalid selected number! Try again.")
                 continue
 
-            # If user selects 5 'main', back to main menu
-            if Headlines_selection == '5':
-                continue
+            # If user selects 'Quit', close connection and exit
+            if main_selection == '3':  
+                cs.sendall(main_desc.encode('utf-8'))  
+                print("Exiting... Goodbye")
+                exit()
 
-            # Construct request based on selected option
-            elif Headlines_selection == '4':
-                request = f"{main_desc},{Headlines_desc}"
-            else:
-                if Headlines_selection == '2':
-                    print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nbusiness, general, health, science, sports, technology")
-                elif Headlines_selection == '3':
-                    print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
-
-                value = input(f"\nEnter the {Headlines_desc} to search for: ").strip()
-                request = f"{main_desc},{Headlines_desc},{value}"
-
-        # sources submenu if user selects option 2
-        elif main_selection == '2':
-            print("\n---- Sources menu ----")
-            for id, option in sources.items():
-                print(f"{id} - {option}")
-
-            # Get selection for sources submenu
-            sources_selection = input("Select your option: ").strip()
-
-            if sources_selection in sources:
-                source_desc = sources[sources_selection]
-            else:
-                print("Invalid selected number! Try again please.")
-                continue
-
-            # If user selects 5 'main', back to main menu
-            if sources_selection == '5':
-                continue
-
-            # Construct request based on selected option
-            elif sources_selection == '4':
-                request = f"{main_desc},{source_desc}"
-            else:
-                if sources_selection == '1':
-                    print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nbusiness, general, health, science, sports, technology")
-                elif sources_selection == '2':
-                    print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
-                elif sources_selection == '3':
-                    print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nar, en")
-
-                value = input(f"Enter the {source_desc} to search for: ").strip()
-                request = f"{main_desc},{source_desc},{value}"
-
-        # Send the request to the server
-        cs.sendall(request.encode('utf-8'))
-
-        # Receive the server's response
-        response = receive_complete_data(cs)
-        # Check if the response is JSON which means a valid category, or country, or language
-        try:
-            dict = json.loads(response)
-            # Allow 'back' option to the user
-            n = len(dict) + 1
-
-            # Print the headlines/sources
+            # headlines submenu if user selects option 1
             if main_selection == '1':
-                print("\nHeadlines:")
-            else:
-                print("\nSources:")
+                print("\n---- Headlines menu ----")
+                for id, option in Headlines.items():
+                    print(f"{id} - {option}")
 
-            counter = 1
-            for article in dict:
-                if main_selection == '1':  # Headlines menu
-                    print(f"No. ({counter})")
-                    print(f"Source name: {article['name']} ")
-                    print(f"author: {article['author']} ")
-                    print(f"title: {article['title']} \n")
-                        
-                elif main_selection == '2':  # sources menu
-                    print(f"No. ({counter})")
-                    print(f"Source name: {article['name']} \n")
+                # Get selection for headlines submenu
+                Headlines_selection = input("\nSelect your option: ").strip()
 
-                counter += 1
-
-            print(f"{n}. Back to the main menu\n")
-        # Otherwise: it is not a JSON response which means invalid category, or country, or language.
-        # Print an appropriate message.
-        except json.JSONDecodeError:
-            print(response)
-            continue 
-                
-        # Allow the user to select an article to provide its details or go back to the main menu
-        article_selection = input("Select the number of desired detailed article: ").strip()
-        if int(article_selection) == n:
-            cs.sendall("back".encode('utf-8'))
-            continue
-        else:
-            cs.sendall(article_selection.encode('utf-8'))
-
-        # Receive detailed response for the selected article
-        try:
-            detailed_response = receive_complete_data(cs)
-            detailed_response_dict = json.loads(detailed_response)
-
-            # Print detailed information for the response
-            source_name = detailed_response_dict.get("source", {}).get("name", "Unknown Source")
-            url = detailed_response_dict.get("url", "No URL")
-            description = detailed_response_dict.get("description", "No Description")
-            print("Source name: ",source_name)
-            print("URL: ",url)
-            print("Description: ",description)
-
-            if main_selection == "1":
-                author = detailed_response_dict.get("author", "Unknown Author")
-                title = detailed_response_dict.get("title", "No Title")
-                published_at = detailed_response_dict.get("publishedAt", "Unknown Date")
-                
-                # Safely handle date and time extraction
-                if "T" in published_at:
-                    date, time = published_at.split('T')
-                    print("Publish date: ",date)
-                    print("Publish time: ",time)
+                if Headlines_selection in Headlines:
+                    Headlines_desc = Headlines[Headlines_selection]
                 else:
-                    print("Published at: ",published_at)
+                    print("Invalid selected number! Try again please.")
+                    continue
 
-                print("Author: ",author)
-                print("Title: ",title)
-                
+                # If user selects 5 'main', back to main menu
+                if Headlines_selection == '5':
+                    continue
+
+                # Construct request based on selected option
+                elif Headlines_selection == '4':
+                    request = f"{main_desc},{Headlines_desc}"
+                else:
+                    if Headlines_selection == '2':
+                        print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nbusiness, general, health, science, sports, technology")
+                    elif Headlines_selection == '3':
+                        print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
+
+                    value = input(f"\nEnter the {Headlines_desc} to search for: ").strip()
+                    request = f"{main_desc},{Headlines_desc},{value}"
+
+            # sources submenu if user selects option 2
+            elif main_selection == '2':
+                print("\n---- Sources menu ----")
+                for id, option in sources.items():
+                    print(f"{id} - {option}")
+
+                # Get selection for sources submenu
+                sources_selection = input("Select your option: ").strip()
+
+                if sources_selection in sources:
+                    source_desc = sources[sources_selection]
+                else:
+                    print("Invalid selected number! Try again please.")
+                    continue
+
+                # If user selects 5 'main', back to main menu
+                if sources_selection == '5':
+                    continue
+
+                # Construct request based on selected option
+                elif sources_selection == '4':
+                    request = f"{main_desc},{source_desc}"
+                else:
+                    if sources_selection == '1':
+                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nbusiness, general, health, science, sports, technology")
+                    elif sources_selection == '2':
+                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
+                    elif sources_selection == '3':
+                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nar, en")
+
+                    value = input(f"Enter the {source_desc} to search for: ").strip()
+                    request = f"{main_desc},{source_desc},{value}"
+
+            # Send the request to the server
+            cs.sendall(request.encode('utf-8'))
+
+            # Receive the server's response
+            response = receive_complete_data(cs)
+            # Check if the response is JSON which means a valid category, or country, or language
+            try:
+                dict = json.loads(response)
+                # Allow 'back' option to the user
+                n = len(dict) + 1
+
+                # Print the headlines/sources
+                if main_selection == '1':
+                    print("\nHeadlines:")
+                else:
+                    print("\nSources:")
+
+                counter = 1
+                for article in dict:
+                    if main_selection == '1':  # Headlines menu
+                        print(f"No. ({counter})")
+                        print(f"Source name: {article['name']} ")
+                        print(f"author: {article['author']} ")
+                        print(f"title: {article['title']} \n")
+                            
+                    elif main_selection == '2':  # sources menu
+                        print(f"No. ({counter})")
+                        print(f"Source name: {article['name']} \n")
+
+                    counter += 1
+
+                print(f"{n}. Back to the main menu\n")
+            # Otherwise: it is not a JSON response which means invalid category, or country, or language.
+            # Print an appropriate message.
+            except json.JSONDecodeError:
+                print(response)
+                continue 
+                    
+            # Allow the user to select an article to provide its details or go back to the main menu
+            article_selection = input("Select the number of desired detailed article: ").strip()
+            if int(article_selection) == n:
+                cs.sendall("back".encode('utf-8'))
+                continue
             else:
-                country = detailed_response_dict.get("country", "Unknown Country")
-                category = detailed_response_dict.get("category", "Unknown Category")
-                language = detailed_response_dict.get("language", "Unknown Language")
+                cs.sendall(article_selection.encode('utf-8'))
 
-                print("Country: ",country)
-                print("Category: ",category)
-                print("Language: ",language)
+            # Receive detailed response for the selected article
+            try:
+                detailed_response = receive_complete_data(cs)
+                detailed_response_dict = json.loads(detailed_response)
 
-        except json.JSONDecodeError:
-            print(detailed_response)
+                # Print detailed information for the response
+                source_name = detailed_response_dict.get("source", {}).get("name", "Unknown Source")
+                url = detailed_response_dict.get("url", "No URL")
+                description = detailed_response_dict.get("description", "No Description")
+                print("Source name: ",source_name)
+                print("URL: ",url)
+                print("Description: ",description)
 
+                if main_selection == "1":
+                    author = detailed_response_dict.get("author", "Unknown Author")
+                    title = detailed_response_dict.get("title", "No Title")
+                    published_at = detailed_response_dict.get("publishedAt", "Unknown Date")
+                    
+                    # Safely handle date and time extraction
+                    if "T" in published_at:
+                        date, time = published_at.split('T')
+                        print("Publish date: ",date)
+                        print("Publish time: ",time)
+                    else:
+                        print("Published at: ",published_at)
+
+                    print("Author: ",author)
+                    print("Title: ",title)
+                    
+                else:
+                    country = detailed_response_dict.get("country", "Unknown Country")
+                    category = detailed_response_dict.get("category", "Unknown Category")
+                    language = detailed_response_dict.get("language", "Unknown Language")
+
+                    print("Country: ",country)
+                    print("Category: ",category)
+                    print("Language: ",language)
+
+            except json.JSONDecodeError:
+                print(detailed_response)
+                
+    except Exception:
+        print("Error in connection with the server")
 
 def main():
      # Create an SSL context to configure the connection's security settings.
