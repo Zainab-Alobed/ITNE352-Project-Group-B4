@@ -108,7 +108,9 @@ interaction with server (Sends the user requests to the server and displays resp
 
 **Server script**
 - Purpose:  
-The server receives requests from the client for headlines/sources from newsapi. The server then will retrieve the requested data from an appropriate API endpoint. After getting the response, the server will save the response into a file named client name and the requested option then prepare a list containing brief information about a maximum of 15 headlines/sources and send it to the client. The client can choose a specific headline/source from the list to get more information about it, which will also prepared by the server. The server will keep getting requests from a maximum of 3 clients.  
+The server receives requests from the client for headlines/sources from newsapi.  
+The server then will retrieve the requested data from an appropriate API endpoint. After getting the response, the server will save the response into a file named client name and the requested option then prepare a list containing brief information about a maximum of 15 headlines/sources and send it to the client.  
+The client can choose a specific headline/source from the list to get more information about it, which will also prepared by the server. The server will keep getting requests from a maximum of 3 clients.  
 
 - Functions:  
 
@@ -157,19 +159,19 @@ TLS/SSL is a transport security protocol that provides a secure way for communic
 
 - Before TLS/SSL:  
 
-(1.)
-![before applying TLS/SSL](images\before_tls.jpg)
+(1.)  
+![before applying TLS/SSL](images/before_tls.jpg)
 
-(2.)
-![before applying TLS/SSL](images\before_tls2.jpg)
+(2.)  
+![before applying TLS/SSL](images/before_tls2.jpg)
 
 - After TLS/SSL:
 
-(1.)
-![After applying TLS/SSL](images\after_tls.jpg)
+(1.)  
+![After applying TLS/SSL](images/after_tls.jpg)
 
-(2.)
-![After applying TLS/SSL](images\after_tls2.jpg)
+(2.)  
+![After applying TLS/SSL](images/after_tls2.jpg)
 
 ## Acknowledgments
 We would like to thank our instructor for providing this project so we can learn how to implement a python network system.
