@@ -178,7 +178,7 @@ TLS/SSL is a transport security protocol that provides a secure way for communic
 
 ## Acknowledgments
 We would like to thank our instructor for providing this project so we can learn how to implement a python network system.
-Moreover, a big think to NewsAPI for providing the news.
+Moreover, a big thanks to NewsAPI for providing the news.
 
 ## Conclusion
 This project demonstrates how secure connections, API integration, Sockects, and client-server communication can be practically implemented using a Python network application.
