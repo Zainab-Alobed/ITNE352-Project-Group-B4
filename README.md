@@ -87,9 +87,6 @@ Follow these steps to set up the project locally:
 - Purpose:  
 interaction with server (Sends the user requests to the server and displays response)
 
-- External packages used:  
-requests==2.32.3
-
 - Main functionalities:
 
 1. Create a TCP socket using IPv4 to connect to the server
@@ -113,11 +110,11 @@ requests==2.32.3
 
 **Additional functions that used in both client and server side**
 
-- get_local_ip():
-A function for retrieving the local IP of the device. 
-The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where no need for sending data, this step is just to determine which network interface is being used. 
-After creating the socket connect it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address that we need. 
-Finally, the method returns the IP address.
+- get_local_ip():  
+A function for retrieving the local IP of the device.  
+The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where no need for sending data, this step is just to determine which network interface is being used.   
+After creating the socket connect it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address that we need.  
+Finally, the method returns the IP address.  
 
 ## Additional Concepts
 
