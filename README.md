@@ -31,19 +31,19 @@ Follow these steps to set up the project locally:
 1) Clone the repository:  
    ```bash
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
-```
+
 2) Install required libraries:
- 
+ ```bash
    pip install -r required.txt
 
 3) Run the server.py
 ```bash
     python server.py
-```
+
 4) Run the client.py
 ```bash
     python client.py
-```
+
 ## How to run the system:
 **Run the server:**
 
