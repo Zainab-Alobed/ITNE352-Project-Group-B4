@@ -159,7 +159,6 @@ def search(sock):
 
             # prepare and send a list to respond, or send no result message
             if res:
-                
                 prepared_list =prepare_list(res,list)
                 sock.sendall(json.dumps(prepared_list).encode('utf-8'))
             

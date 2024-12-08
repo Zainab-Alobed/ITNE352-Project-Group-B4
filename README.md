@@ -106,20 +106,45 @@ requests==2.32.3
 
 
 **Server script**
+- Purpose:
+The server receives requests from the client for headlines/sources from newsapi. The server then will retrieve the requested data from an appropriate API endpoint. After getting the response, the server will save the response into a file named client name and the requested option then prepare a list containing brief information about a maximum of 15 headlines/sources and send it to the client. The client can choose a specific headline/source from the list to get more information about it, which will also prepared by the server. The server will keep getting requests from a maximum of 3 clients.
+
+- Functions:
+
+1. get_headlines + get_all_headlines
+Those two functions are responsible for retrieving headlines from API endpoints /everything and //top-headlines
+
+2. get_sources
+To retrieve sources from the API endpoint /sources
+
+3. create_file
+This function will save the API responses into a file named with "<client_name>_<option>_<group_ID>.json"
+ 
+4. prepare_list
+It will create a list containing only the information that the client will display to the user from the API response.
+
+5. search
+This function is responsible for receiving clients' requests and responding to them.
+
+
 
 **Additional functions that used in both client and server side**
 
 - get_local_ip():
 A function for retrieving the local IP of the device. 
-The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where no need for sending data, this step is just to determine which network interface is being used. 
-After creating the socket connect it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address that we need. 
+The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where there is no need for sending data, this step is just to determine which network interface is being used. 
+After creating the socket it connects it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address we need. 
 Finally, the method returns the IP address.
 
 ## Additional Concepts
 
 
 **TLS\SSL (security)**
+TLS/SSL is a transport security protocol that provides a secure way for communication by providing some services. One of those services is confedintiality which depends on the encryption. On the screenshots below you can notice the data before applying TLS/SSL and after.
 
+- Before TLS/SSL:
+
+- A fter TLS/SSL:
 
 
 
