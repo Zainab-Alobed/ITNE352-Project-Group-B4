@@ -91,14 +91,20 @@ interaction with server (Sends the user requests to the server and displays resp
 
 1. Create a TCP socket using IPv4 to connect to the server
 
+![Connection to the server](images/1.png)
+
 2. Ask user about his name and send it to the server
+
+![User name](images/2.png)
 
 3. Display the main menu
 
-4. Display either (1) Headlines menu or (2) Sources menu depending on the user choice
+![Menu](images/3.png)
 
-5. Send the request and recieve/display the response from the server (allow the request of detailed response)
+4. Display either (1) Headlines menu or (2) Sources menu depending on the user choice. Then, Send the request and recieve/display the response from the server (allow the request of detailed response)
 
+![request](images/4.1.png)
+![request](images/4.2.png)
 
 **Server script**
 - Purpose:  
@@ -106,17 +112,29 @@ The server receives requests from the client for headlines/sources from newsapi.
 
 - Functions:  
 
-1. get_headlines + get_all_headlines
+1. get_headlines + get_all_headlines  
 Those two functions are responsible for retrieving headlines from API endpoints /everything and //top-headlines
 
-2. get_sources
+![get headlines](images/server1.jpg)
+
+
+2. get_sources  
 To retrieve sources from the API endpoint /sources
 
-3. create_file
+![get sources](images/server2.jpg)
+
+
+3. create_file  
 This function will save the API responses into a file named with "<client_name>_<option>_<group_ID>.json"
 
-4. prepare_list
+![create a json file](images/server3.jpg)
+
+
+4. prepare_list  
 It will create a list containing only the information that the client will display to the user from the API response.
+
+![create a list](images/server4.jpg)
+
 
 5. search
 This function is responsible for receiving clients' requests and responding to them.
@@ -137,11 +155,21 @@ Finally, the method returns the IP address.
 **TLS\SSL (security)**
 TLS/SSL is a transport security protocol that provides a secure way for communication by providing some services. One of those services is confedintiality which depends on the encryption. On the screenshots below you can notice the data before applying TLS/SSL and after.  
 
-- Before TLS/SSL:
+- Before TLS/SSL:  
+
+(1.)
+![before applying TLS/SSL](images\before_tls.jpg)
+
+(2.)
+![before applying TLS/SSL](images\before_tls2.jpg)
 
 - After TLS/SSL:
 
+(1.)
+![After applying TLS/SSL](images\after_tls.jpg)
 
+(2.)
+![After applying TLS/SSL](images\after_tls2.jpg)
 
 ## Acknowledgments
 We would like to thank our instructor for providing this project so we can learn how to implement a python network system.
