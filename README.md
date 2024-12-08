@@ -92,18 +92,20 @@ interaction with server: Sends the user requests to the server and displays resp
 - External packages used:
 requests==2.32.3
 
-- Functions:
+- Main functionalities:
 
 1. Create a TCP socket using IPv4 to connect to the server
+![Sockect Creation](images\1.png)
 
-2. Ask user about his name and send it to the server
+2. Ask the user about his name and send it to the server
+![User name](images\2.png)
 
-3. Display the main menu
+3. Display the main menu. Then, display either (1) Headlines menu or (2) Sources menu or (3) Quit depending on the user choice
+![menu](images\3.png)
 
-4. Display either (1) Headlines menu or (2) Sources menu depending on the user choice
-
-5. Send the request and recieve/display the response from the server (allow the request of detailed response)
-
+4. If not (3) Send the request and recieve/display the response from the server (allow the request of detailed response)
+![request](images\4.1.png)
+![request](images\4.2.png)
 
 **Server script**
 
@@ -113,7 +115,7 @@ requests==2.32.3
 A function for retrieving the local IP of the device. 
 The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where no need for sending data, this step is just to determine which network interface is being used. 
 After creating the socket connect it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address that we need. 
-Finally, the method returns the IP address.
+Finally, the method returns the IP address.
 
 ## Additional Concepts
 
