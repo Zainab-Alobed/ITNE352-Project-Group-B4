@@ -35,7 +35,7 @@ Follow these steps to set up the project locally:
 2) Install required libraries:
     ```bash
     pip install -r required.txt
-```
+
 3) Run the server.py
 ```bash
     python server.py
@@ -75,7 +75,7 @@ Follow these steps to set up the project locally:
 2. Sources
 3. Quit
 
-the user must input a valid number 1-3  
+  the user must input a valid number 1-3  
 
 3) A submenu of either headlines or sources will be displayed depending on the user choice
 
