@@ -28,7 +28,7 @@ Zainab Hasan Isa Alobed (ID: 202206986)
 ## Requirements
 Follow these steps to set up the project locally:
 
-**Any disruption in the internet connection will prevent the system from functioning properly**
+**Any disruption in the internet connection will prevent the system from functioning properly**  
 **Ensure you are connected to the internet so API can work successfully**  
 
 1) Clone the repository:  
