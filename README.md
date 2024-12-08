@@ -69,13 +69,11 @@ Follow these steps to set up the project locally:
 
 1) The user will be asked about his name, and send it to the server
 
-2) The main menu will be displayed in client side that contains three options:  
+2) The main menu will be displayed in client side that contains three options (the user must input a valid number 1-3):  
 
 1. Headlines 
 2. Sources
 3. Quit
-
-  the user must input a valid number 1-3  
 
 3) A submenu of either headlines or sources will be displayed depending on the user choice
 
