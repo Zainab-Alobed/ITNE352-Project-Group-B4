@@ -12,9 +12,9 @@ S1 2024-2025
 **Group name**: B4
 **Course Code:** ITNE352  
 **Section:** 02  
-**Students:**
-- Israa Isa Ahmed Altaitoon (ID: 202206492)  
-- Zainab Hasan Isa Alobed (ID: 202206986)
+**Students:**  
+Israa Isa Ahmed Altaitoon (ID: 202206492)  
+Zainab Hasan Isa Alobed (ID: 202206986)
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -33,9 +33,9 @@ Follow these steps to set up the project locally:
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
 ```
 2) Install required libraries:
-  ```bash
+ 
    pip install -r required.txt
-```
+
 3) Run the server.py
 ```bash
     python server.py
@@ -85,7 +85,7 @@ Follow these steps to set up the project locally:
 
 **Client script**
 - Purpose:  
-interaction with server: Sends the user requests to the server and displays response.
+interaction with server (Sends the user requests to the server and displays response)
 
 - External packages used:  
 requests==2.32.3
