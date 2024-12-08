@@ -39,11 +39,11 @@ Follow these steps to set up the project locally:
 3) Run the server.py
 ```bash
     python server.py
-
+```
 4) Run the client.py
 ```bash
     python client.py
-
+```
 ## How to run the system:
 **Run the server:**
 
