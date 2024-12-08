@@ -35,7 +35,7 @@ Follow these steps to set up the project locally:
 2) Install required libraries:
  ```bash
    pip install -r required.txt
-
+```
 3) Run the server.py
 ```bash
     python server.py
