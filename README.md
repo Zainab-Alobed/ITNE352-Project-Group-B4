@@ -13,8 +13,8 @@ S1 2024-2025
 **Course Code:** ITNE352  
 **Section:** 02  
 **Students:**
-- Israa Isa Ahmed Altaitoon (ID: 202206492)  
-- Zainab Hasan Isa Alobed (ID: 202206986)
+Israa Isa Ahmed Altaitoon (ID: 202206492)    
+Zainab Hasan Isa Alobed (ID: 202206986)
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -31,7 +31,7 @@ Follow these steps to set up the project locally:
 1) Clone the repository:  
    ```bash
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
-```
+
 2) Install required libraries:
     ```bash
     pip install -r required.txt
@@ -69,13 +69,13 @@ Follow these steps to set up the project locally:
 
 1) The user will be asked about his name, and send it to the server
 
-2) The main menu will be displayed in client side that contains three options:
+2) The main menu will be displayed in client side that contains three options:  
 
 1. Headlines 
 2. Sources
 3. Quit
 
-the user must input a valid number 1-3
+the user must input a valid number 1-3  
 
 3) A submenu of either headlines or sources will be displayed depending on the user choice
 
@@ -86,13 +86,10 @@ the user must input a valid number 1-3
 ## The scripts
 
 **Client script**
-- Purpose:
-interaction with server: Sends the user requests to the server and displays response.
+- Purpose:  
+interaction with server: Sends the user requests to the server and displays response.  
 
-- External packages used:
-requests==2.32.3
-
-- Functions:
+- Functions:  
 
 1. Create a TCP socket using IPv4 to connect to the server
 
@@ -106,10 +103,10 @@ requests==2.32.3
 
 
 **Server script**
-- Purpose:
+- Purpose:  
 The server receives requests from the client for headlines/sources from newsapi. The server then will retrieve the requested data from an appropriate API endpoint. After getting the response, the server will save the response into a file named client name and the requested option then prepare a list containing brief information about a maximum of 15 headlines/sources and send it to the client. The client can choose a specific headline/source from the list to get more information about it, which will also prepared by the server. The server will keep getting requests from a maximum of 3 clients.
 
-- Functions:
+- Functions:  
 
 1. get_headlines + get_all_headlines
 Those two functions are responsible for retrieving headlines from API endpoints /everything and //top-headlines
@@ -130,17 +127,17 @@ This function is responsible for receiving clients' requests and responding to t
 
 **Additional functions that used in both client and server side**
 
-- get_local_ip():
-A function for retrieving the local IP of the device. 
-The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where there is no need for sending data, this step is just to determine which network interface is being used. 
-After creating the socket it connects it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address we need. 
-Finally, the method returns the IP address.
+- get_local_ip():  
+A function for retrieving the local IP of the device.   
+The IP address retrieved by this function is assigned for internal use(not public). It works by contacting 8.8.8.8 which is Google’s public DNS server with a UDP socket where there is no need for sending data, this step is just to determine which network interface is being used.  
+After creating the socket it connects it to the DNS server. We can get the IP address using s.getsockname() which returns a tuple of the IP address and port number. s.getsockname()[0] will be the local IP address we need.   
+Finally, the method returns the IP address.  
 
 ## Additional Concepts
 
 
 **TLS\SSL (security)**
-TLS/SSL is a transport security protocol that provides a secure way for communication by providing some services. One of those services is confedintiality which depends on the encryption. On the screenshots below you can notice the data before applying TLS/SSL and after.
+TLS/SSL is a transport security protocol that provides a secure way for communication by providing some services. One of those services is confedintiality which depends on the encryption. On the screenshots below you can notice the data before applying TLS/SSL and after.  
 
 - Before TLS/SSL:
 
