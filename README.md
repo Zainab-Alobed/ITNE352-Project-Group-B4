@@ -28,6 +28,9 @@ Zainab Hasan Isa Alobed (ID: 202206986)
 ## Requirements
 Follow these steps to set up the project locally:
 
+**Ensure you are connected to the internet so API can work successfully**
+**Any disruption in the internet connection will prevent the system from functioning properly**
+
 1) Clone the repository:  
    ```bash
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
