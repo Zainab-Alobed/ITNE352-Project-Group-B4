@@ -33,8 +33,8 @@ Follow these steps to set up the project locally:
    git clone https://github.com/Zainab-Alobed/ITNE352-Project-Group-B4
 ```
 2) Install required libraries:
-   ```bash
-    pip install -r required.txt
+  ```bash
+   pip install -r required.txt
 ```
 3) Run the server.py
 ```bash
@@ -84,24 +84,28 @@ Follow these steps to set up the project locally:
 ## The scripts
 
 **Client script**
-- Purpose:
+- Purpose:  
 interaction with server: Sends the user requests to the server and displays response.
 
-- External packages used:
+- External packages used:  
 requests==2.32.3
 
 - Main functionalities:
 
 1. Create a TCP socket using IPv4 to connect to the server
+
 ![Sockect Creation](images/1.png)
 
 2. Ask the user about his name and send it to the server
+
 ![User name](images/2.png)
 
 3. Display the main menu. Then, display either (1) Headlines menu or (2) Sources menu or (3) Quit depending on the user choice
+
 ![menu](images/3.png)
 
 4. If not (3) Send the request and recieve/display the response from the server (allow the request of detailed response)
+
 ![request](images/4.1.png)
 ![request](images/4.2.png)
 
