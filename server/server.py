@@ -31,21 +31,27 @@ def get_headlines(option, value):
         params["country"] = value
 
     # get response from endpoint and return it
-    response = requests.get(f"{BASE_URL}/top-headlines", params=params)
-    if response.status_code != 200:
-        print(f"Error with API: {response.status_code}, {response.text}")
-        return {"error": "API error"}
-    return response.json()
+    try:
+        response = requests.get(f"{BASE_URL}/top-headlines", params=params)
+        if response.status_code != 200:
+            print(f"Error with API: {response.status_code}, {response.text}")
+            return {"error": "API error"}
+        return response.json()
+    except Exception:
+        return {"API_error": "API error, check the connection"}
 
 
 # all headlines search function
 def get_all_headlines():
     params = {"apiKey": API_KEY, "pageSize": 15, "language": "en", "q": "news"}
-    response = requests.get(f"{BASE_URL}/everything", params=params)
-    if response.status_code != 200:
-        print(f"Error with API: {response.status_code}, {response.text}")
-        return {"error": "API error"}
-    return response.json()
+    try:
+        response = requests.get(f"{BASE_URL}/everything", params=params)
+        if response.status_code != 200:
+            print(f"Error with API: {response.status_code}, {response.text}")
+            return {"error": "API error"}
+        return response.json()
+    except Exception:
+        return {"API_error": "API error, check the connection"}
 
 
 # resource search function
@@ -62,11 +68,14 @@ def get_sources(option, value):
         params["language"] = value
 
     # get response from endpoint and return it
-    response = requests.get(f"{BASE_URL}/sources", params=params)
-    if response.status_code != 200:
-        print(f"Error with API: {response.status_code}, {response.text}")
-        return {"error": "API error"}
-    return response.json()
+    try:
+        response = requests.get(f"{BASE_URL}/sources", params=params)
+        if response.status_code != 200:
+            print(f"Error with API: {response.status_code}, {response.text}")
+            return {"error": "API error"}
+        return response.json()
+    except Exception:
+        return {"API_error": "API error, check the connection"}
 
 
 def create_file(client_name, response, list, option):
@@ -164,6 +173,11 @@ def search(sock):
 
             # save the result in json file
             create_file(client_name, response, list, option)
+
+            # If failed to connect the the api
+            if "API_error" in response:
+                sock.sendall(response["API_error"])
+                continue
 
             # prepare and send a list to respond, or send no result message
             if res:

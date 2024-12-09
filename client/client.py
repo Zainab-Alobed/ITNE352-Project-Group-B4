@@ -1,17 +1,18 @@
 import socket
 import json
-import ssl 
+import ssl
 import os
 import signal
 import sys
 import re
 
 
-#for SSL/TLS
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
+# for SSL/TLS
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
-cs=None
+cs = None
+
 
 def get_local_ip():
     try:
@@ -25,6 +26,7 @@ def get_local_ip():
     except Exception as e:
         return f"Error retrieving IP: {e}"
 
+
 # to follow up with recv(), to ensure all data sent over the socket is received completely
 def receive_complete_data(socket):
     buffer_size = 4096
@@ -36,51 +38,48 @@ def receive_complete_data(socket):
         # Which indicates that there is no more data to be received.
         if len(part) < buffer_size:
             break
-    return data.decode('utf-8')
+    return data.decode("utf-8")
 
-def connection(cs):  
+
+def connection(cs):
     print("Hi!")
     # Ask the user to enter its name, and send it to the server
     while True:
         user_name = input("\nEnter your name (Only letters are allowed): ").strip()
         # Check if the name matches the regex (at least one letter)
-        if re.match('^[a-zA-Z]+(?: [a-zA-Z]+)*$', user_name):
+        if re.match("^[a-zA-Z]+(?: [a-zA-Z]+)*$", user_name):
             break
         else:
             print("Invalid name. Only letters are allowed. Please try again.")
 
-    cs.sendall(user_name.encode('utf-8'))
+    cs.sendall(user_name.encode("utf-8"))
 
     print(f"Welcome {user_name}!\n")
 
     # Define the main menu as a dictionary
-    main_menu = {
-        '1': 'headlines',
-        '2': 'sources',
-        '3': 'Quit'
-    }
+    main_menu = {"1": "headlines", "2": "sources", "3": "Quit"}
 
     # Define the headlines sub menu as a dictionary
     Headlines = {
-        '1': 'keywords',
-        '2': 'category',
-        '3': 'country',
-        '4': 'all',
-        '5': 'main'
+        "1": "keywords",
+        "2": "category",
+        "3": "country",
+        "4": "all",
+        "5": "main",
     }
 
     # Define the sources sub menu as a dictionary
     sources = {
-        '1': 'category',
-        '2': 'country',
-        '3': 'language',
-        '4': 'all',
-        '5': 'main'
+        "1": "category",
+        "2": "country",
+        "3": "language",
+        "4": "all",
+        "5": "main",
     }
 
-    main_selection = '1'
+    main_selection = "1"
     try:
-        while main_selection != '3':  # Loop until the user chooses to quit
+        while main_selection != "3":  # Loop until the user chooses to quit
             print("\nMain menu:")
             for key, value in main_menu.items():
                 print(f"{key}. {value}")
@@ -96,13 +95,13 @@ def connection(cs):
                 continue
 
             # If user selects 'Quit', close connection and exit
-            if main_selection == '3':  
-                cs.sendall(main_desc.encode('utf-8'))  
+            if main_selection == "3":
+                cs.sendall(main_desc.encode("utf-8"))
                 print("Exiting... Goodbye")
                 exit()
 
             # headlines submenu if user selects option 1
-            if main_selection == '1':
+            if main_selection == "1":
                 print("\n---- Headlines menu ----")
                 for id, option in Headlines.items():
                     print(f"{id} - {option}")
@@ -117,23 +116,29 @@ def connection(cs):
                     continue
 
                 # If user selects 5 'main', back to main menu
-                if Headlines_selection == '5':
+                if Headlines_selection == "5":
                     continue
 
                 # Construct request based on selected option
-                elif Headlines_selection == '4':
+                elif Headlines_selection == "4":
                     request = f"{main_desc},{Headlines_desc}"
                 else:
-                    if Headlines_selection == '2':
-                        print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nbusiness, general, health, science, sports, technology")
-                    elif Headlines_selection == '3':
-                        print(f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
+                    if Headlines_selection == "2":
+                        print(
+                            f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nbusiness, general, health, science, sports, technology"
+                        )
+                    elif Headlines_selection == "3":
+                        print(
+                            f"\nHere is suggestions that might help you with the valid {Headlines_desc}:\nau, ca, jp, ae, sa, kr, us, ma"
+                        )
 
-                    value = input(f"\nEnter the {Headlines_desc} to search for: ").strip()
+                    value = input(
+                        f"\nEnter the {Headlines_desc} to search for: "
+                    ).strip()
                     request = f"{main_desc},{Headlines_desc},{value}"
 
             # sources submenu if user selects option 2
-            elif main_selection == '2':
+            elif main_selection == "2":
                 print("\n---- Sources menu ----")
                 for id, option in sources.items():
                     print(f"{id} - {option}")
@@ -148,25 +153,31 @@ def connection(cs):
                     continue
 
                 # If user selects 5 'main', back to main menu
-                if sources_selection == '5':
+                if sources_selection == "5":
                     continue
 
                 # Construct request based on selected option
-                elif sources_selection == '4':
+                elif sources_selection == "4":
                     request = f"{main_desc},{source_desc}"
                 else:
-                    if sources_selection == '1':
-                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nbusiness, general, health, science, sports, technology")
-                    elif sources_selection == '2':
-                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nau, ca, jp, ae, sa, kr, us, ma")
-                    elif sources_selection == '3':
-                        print(f"\nHere is suggestions that might help you with the valid {source_desc}:\nar, en")
+                    if sources_selection == "1":
+                        print(
+                            f"\nHere is suggestions that might help you with the valid {source_desc}:\nbusiness, general, health, science, sports, technology"
+                        )
+                    elif sources_selection == "2":
+                        print(
+                            f"\nHere is suggestions that might help you with the valid {source_desc}:\nau, ca, jp, ae, sa, kr, us, ma"
+                        )
+                    elif sources_selection == "3":
+                        print(
+                            f"\nHere is suggestions that might help you with the valid {source_desc}:\nar, en"
+                        )
 
                     value = input(f"Enter the {source_desc} to search for: ").strip()
                     request = f"{main_desc},{source_desc},{value}"
 
             # Send the request to the server
-            cs.sendall(request.encode('utf-8'))
+            cs.sendall(request.encode("utf-8"))
 
             # Receive the server's response
             response = receive_complete_data(cs)
@@ -177,20 +188,20 @@ def connection(cs):
                 n = len(dict) + 1
 
                 # Print the headlines/sources
-                if main_selection == '1':
+                if main_selection == "1":
                     print("\nHeadlines:")
                 else:
                     print("\nSources:")
 
                 counter = 1
                 for article in dict:
-                    if main_selection == '1':  # Headlines menu
+                    if main_selection == "1":  # Headlines menu
                         print(f"No. ({counter})")
                         print(f"Source name: {article['name']} ")
                         print(f"author: {article['author']} ")
                         print(f"title: {article['title']} \n")
-                            
-                    elif main_selection == '2':  # sources menu
+
+                    elif main_selection == "2":  # sources menu
                         print(f"No. ({counter})")
                         print(f"Source name: {article['name']} \n")
 
@@ -201,15 +212,17 @@ def connection(cs):
             # Print an appropriate message.
             except json.JSONDecodeError:
                 print(response)
-                continue 
-                    
+                continue
+
             # Allow the user to select an article to provide its details or go back to the main menu
-            article_selection = input("Select the number of desired detailed article: ").strip()
+            article_selection = input(
+                "Select the number of desired detailed article: "
+            ).strip()
             if int(article_selection) == n:
-                cs.sendall("back".encode('utf-8'))
+                cs.sendall("back".encode("utf-8"))
                 continue
             else:
-                cs.sendall(article_selection.encode('utf-8'))
+                cs.sendall(article_selection.encode("utf-8"))
 
             # Receive detailed response for the selected article
             try:
@@ -217,69 +230,80 @@ def connection(cs):
                 detailed_response_dict = json.loads(detailed_response)
 
                 # Print detailed information for the response
-                source_name = detailed_response_dict.get("source", {}).get("name", "Unknown Source")
+                source_name = detailed_response_dict.get("source", {}).get(
+                    "name", "Unknown Source"
+                )
                 url = detailed_response_dict.get("url", "No URL")
-                description = detailed_response_dict.get("description", "No Description")
-                print("Source name: ",source_name)
-                print("URL: ",url)
-                print("Description: ",description)
+                description = detailed_response_dict.get(
+                    "description", "No Description"
+                )
+                print("Source name: ", source_name)
+                print("URL: ", url)
+                print("Description: ", description)
 
                 if main_selection == "1":
                     author = detailed_response_dict.get("author", "Unknown Author")
                     title = detailed_response_dict.get("title", "No Title")
-                    published_at = detailed_response_dict.get("publishedAt", "Unknown Date")
-                    
+                    published_at = detailed_response_dict.get(
+                        "publishedAt", "Unknown Date"
+                    )
+
                     # Safely handle date and time extraction
                     if "T" in published_at:
-                        date, time = published_at.split('T')
-                        print("Publish date: ",date)
-                        print("Publish time: ",time)
+                        date, time = published_at.split("T")
+                        print("Publish date: ", date)
+                        print("Publish time: ", time)
                     else:
-                        print("Published at: ",published_at)
+                        print("Published at: ", published_at)
 
-                    print("Author: ",author)
-                    print("Title: ",title)
-                    
+                    print("Author: ", author)
+                    print("Title: ", title)
+
                 else:
                     country = detailed_response_dict.get("country", "Unknown Country")
-                    category = detailed_response_dict.get("category", "Unknown Category")
-                    language = detailed_response_dict.get("language", "Unknown Language")
+                    category = detailed_response_dict.get(
+                        "category", "Unknown Category"
+                    )
+                    language = detailed_response_dict.get(
+                        "language", "Unknown Language"
+                    )
 
-                    print("Country: ",country)
-                    print("Category: ",category)
-                    print("Language: ",language)
+                    print("Country: ", country)
+                    print("Category: ", category)
+                    print("Language: ", language)
 
             except json.JSONDecodeError:
                 print(detailed_response)
-                
+
     except Exception:
         print("Error in connection with the server")
 
+
 def main():
-     # Create an SSL context to configure the connection's security settings.
+    # Create an SSL context to configure the connection's security settings.
     context = ssl.create_default_context()
-    
-    context.check_hostname = False # Disable hostname verification
+
+    context.check_hostname = False  # Disable hostname verification
     context.verify_mode = ssl.CERT_NONE  # Disables certificate verification
     context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
 
-    # Create a TCP socket using IPv4 
+    # Create a TCP socket using IPv4
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_s:
         global cs
         with context.wrap_socket(client_s, server_hostname="myserver") as cs:
             try:
                 cs.connect((get_local_ip(), 5353))
-                
+
                 if isinstance(cs, socket.socket):
                     connection(cs)
 
-             # Handle SSL-related errors
+            # Handle SSL-related errors
             except ssl.SSLError as ssl_err:
                 print(f"SSL Error: {ssl_err}")
 
             # اandle a user interrupt (Ctrl+C).
             except KeyboardInterrupt:
-                cs.sendall("Quit".encode('utf-8'))
+                cs.sendall("Quit".encode("utf-8"))
                 print("Exiting... Goodbye")
                 exit()
             # Catch and print any other exceptions that might occur during execution.
@@ -287,21 +311,21 @@ def main():
                 print(f"Error: {e}")
 
 
-#safely close connection
+# safely close connection
 def close_session(signal_received, frame):
 
-   try:
-       cs.sendall("Quit".encode('utf-8'))  
-       print("\nSession closed. Goodbye!")
-   except Exception as e:
-       print(f"Error while closing session: {e}")
-   finally:
-       sys.exit(0)  
+    try:
+        cs.sendall("Quit".encode("utf-8"))
+        print("\nSession closed. Goodbye!")
+    except Exception as e:
+        print(f"Error while closing session: {e}")
+    finally:
+        sys.exit(0)
 
 
 if __name__ == "__main__":
     try:
-       main()
-     # handle a user interrupt (Ctrl+C).
+        main()
+    # handle a user interrupt (Ctrl+C).
     except KeyboardInterrupt:
         close_session()
