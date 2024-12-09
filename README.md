@@ -115,6 +115,8 @@ The server receives requests from the client for headlines/sources from newsapi.
 The server then will retrieve the requested data from an appropriate API endpoint. After getting the response, the server will save the response into a file named client name and the requested option then prepare a list containing brief information about a maximum of 15 headlines/sources and send it to the client.  
 The client can choose a specific headline/source from the list to get more information about it, which will also prepared by the server. The server will keep getting requests from a maximum of 3 clients.  
 
+- packages: re, socket, json, threading, requests, ssl, os
+
 - Functions:  
 
 1. get_headlines + get_all_headlines  
