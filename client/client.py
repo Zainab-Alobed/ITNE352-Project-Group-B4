@@ -39,12 +39,12 @@ def receive_complete_data(socket):
     return data.decode('utf-8')
 
 def connection(cs):  
-
+    print("Hi!")
     # Ask the user to enter its name, and send it to the server
     while True:
-        user_name = input("Hi\nEnter your name (Only letters are allowed): ").strip()
+        user_name = input("\nEnter your name (Only letters are allowed): ").strip()
         # Check if the name matches the regex (at least one letter)
-        if re.match(r'^[a-zA-Z ]+$', user_name):
+        if re.match('^[a-zA-Z]+(?: [a-zA-Z]+)*$', user_name):
             break
         else:
             print("Invalid name. Only letters are allowed. Please try again.")
