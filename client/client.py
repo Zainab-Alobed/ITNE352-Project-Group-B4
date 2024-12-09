@@ -42,12 +42,12 @@ def connection(cs):
 
     # Ask the user to enter its name, and send it to the server
     while True:
-        user_name = input("Hi\nEnter your name: ").strip()
+        user_name = input("Hi\nEnter your name (Only letters are allowed): ").strip()
         # Check if the name matches the regex (at least one letter)
         if re.match(r'^[a-zA-Z ]+$', user_name):
             break
         else:
-            print("Invalid name. Please enter a name with at least one letter.")
+            print("Invalid name. Only letters are allowed. Please try again.")
 
     cs.sendall(user_name.encode('utf-8'))
 
