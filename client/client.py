@@ -4,6 +4,8 @@ import ssl
 import os
 import signal
 import sys
+import re
+
 
 #for SSL/TLS
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
@@ -37,9 +39,17 @@ def receive_complete_data(socket):
     return data.decode('utf-8')
 
 def connection(cs):  
+
     # Ask the user to enter its name, and send it to the server
-    user_name = input("Hi\nEnter your name: ").strip()  
-    cs.sendall(user_name.encode('utf-8'))  
+    while True:
+        user_name = input("Hi\nEnter your name: ").strip()
+        # Check if the name matches the regex (at least one letter)
+        if re.match(r'^[a-zA-Z ]+$', user_name):
+            break
+        else:
+            print("Invalid name. Please enter a name with at least one letter.")
+
+    cs.sendall(user_name.encode('utf-8'))
 
     print(f"Welcome {user_name}!\n")
 

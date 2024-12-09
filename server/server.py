@@ -233,14 +233,14 @@ def main():
                 client_count = 0
                 threads = []
 
-                # accepting connection from 3 clients
+                # accepting connection from 5 clients
                 while True:
                     sock, sockname = secure_socket.accept()
                     thread = threading.Thread(target=search, args=(sock,))
                     threads.append(thread)
                     thread.start()
                     client_count += 1
-                    if client_count == 3:
+                    if client_count == 5:
                         break
 
                 for thread in threads:
