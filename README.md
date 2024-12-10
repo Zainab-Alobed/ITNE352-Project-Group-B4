@@ -96,18 +96,26 @@ interaction with server (Sends the user requests to the server and displays resp
 
 ![Connection to the server](images/1.png)
 
-2. Ask user about his name and send it to the server
+2. get_user_name(): ask user about his name and send it to the server
 
-![User name](images/2.png)
+![get_user_name()](images/2.png)
 
-3. Display the main menu
+3. main_menu(): display the main menu
 
-![Menu](images/3.png)
+![main_menu()](images/3.png)
 
-4. Display either (1) Headlines menu or (2) Sources menu depending on the user choice. Then, Send the request and recieve/display the response from the server (allow the request of detailed response)
+4. Headlines_menu() + Sources_menu(): display either headlines menu or sources menu depending on the user choice.  
 
-![request](images/4.1.png)
-![request](images/4.2.png)
+![Headlines_menu()](images/4.1.png)
+![Sources_menu()](images/4.2.png)
+
+5. response(cs, main_selection): display response of the user request
+
+![response(cs, main_selection)](images/5.png)
+
+6. detailed_response(cs, main_selection): display of user detailed request if required
+
+![Sdetailed_response(cs, main_selection)](images/6.png)
 
 **Server script**
 - Purpose:  
