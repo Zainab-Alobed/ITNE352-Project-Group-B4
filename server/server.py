@@ -23,7 +23,6 @@ def get_headlines(option, value):
     """
 
     params = {"apiKey": API_KEY, "pageSize": 15}
-
     if option == "keywords":
         params["q"] = value
     elif option == "category":
@@ -40,9 +39,9 @@ def get_headlines(option, value):
             print(f"Error with API: {response.status_code}, {response.text}")
             return {"error": "API error"}
         return response.json()
+    
     except Exception:
         return {"API_error": "API error, check the connection"}
-
 
 def get_all_headlines():
     """
@@ -55,9 +54,9 @@ def get_all_headlines():
             print(f"Error with API: {response.status_code}, {response.text}")
             return {"error": "API error"}
         return response.json()
+    
     except Exception:
         return {"API_error": "API error, check the connection"}
-
 
 def get_sources(option, value):
     """
@@ -65,7 +64,6 @@ def get_sources(option, value):
     params to pass the API key and filtering criteria
     """
     params = {"apiKey": API_KEY, "pageSize": 15}
-
     if option == "category":
         params["category"] = value
     elif option == "country":
@@ -79,9 +77,9 @@ def get_sources(option, value):
             print(f"Error with API: {response.status_code}, {response.text}")
             return {"error": "API error"}
         return response.json()
+    
     except Exception:
         return {"API_error": "API error, check the connection"}
-
 
 def create_file(client_name, response, list, option):
     """
@@ -95,7 +93,6 @@ def create_file(client_name, response, list, option):
     )
     with open(file_name, "w", encoding="utf-8") as file:
         json.dump(response, file, ensure_ascii=False, indent=4)
-
 
 def handle_request(list, option, client_name, value=""):
     """
@@ -125,7 +122,6 @@ def handle_request(list, option, client_name, value=""):
 
     return response, full_response
 
-
 def prepare_list(response, list):
     """
     Taking the list of articles/sources and
@@ -150,7 +146,6 @@ def prepare_list(response, list):
 
     return prepared_list
 
-
 def receive_complete_data(socket):
     buffer_size = 4096
     data = b""
@@ -160,7 +155,6 @@ def receive_complete_data(socket):
         if len(part) < buffer_size:
             break
     return data.decode("utf-8")
-
 
 def search(sock):
     """
@@ -197,7 +191,7 @@ def search(sock):
 
             # If failed to connect the the api and code was not 200
             if "API_error" in full_response:
-                sock.sendall(response["API_error"])
+                sock.sendall(full_response["API_error"])
                 continue
 
             # repare and send a list to respond, or send no result message
@@ -209,11 +203,7 @@ def search(sock):
                 sock.sendall("No results found. Please try agaim".encode("utf-8"))
                 continue
 
-            """
-            After displaying the list to the user in the client, the 
-            user will be able to select an element from the list
-            to get the remaining details or he may mack to the main menue
-            """
+            #recieve the client selection after displaying the list
             select = receive_complete_data(sock).strip()
 
             if select == "Quit":
@@ -240,7 +230,6 @@ def search(sock):
         sock.close()
         print(f"Client {client_name} has disconnected.")
 
-
 # get local ip address
 def get_local_ip():
     try:
@@ -253,7 +242,6 @@ def get_local_ip():
         return ip_address
     except Exception as e:
         return f"Error retrieving IP: {e}"
-
 
 def main():
     try:
@@ -291,7 +279,6 @@ def main():
         print(
             f"Error starting server: Please check the" " certificate and key files: {e}"
         )
-
 
 if __name__ == "__main__":
     main()
