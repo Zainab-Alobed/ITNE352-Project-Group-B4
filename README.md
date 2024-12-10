@@ -130,30 +130,31 @@ The client can choose a specific headline/source from the list to get more infor
 1. get_headlines + get_all_headlines  
 Those two functions are responsible for retrieving headlines from API endpoints /everything and //top-headlines
 
-![get headlines](images/server1.jpg)
+![get headlines](images/server1.png)
 
 
 2. get_sources  
 To retrieve sources from the API endpoint /sources
 
-![get sources](images/server2.jpg)
+![get sources](images/server2.png)
 
 
 3. create_file  
 This function will save the API responses into a file named with "<client_name>_<option>_<group_ID>.json"
 
-![create a json file](images/server3.jpg)
+![create a json file](images/server3.png)
 
 
 4. prepare_list  
 It will create a list containing only the information that the client will display to the user from the API response.
 
-![create a list](images/server4.jpg)
+![create a list](images/server4.png)
 
 
 5. search
 This function is responsible for receiving clients' requests and responding to them.
 
+![create a list](images/server5.png)
 
 **Additional functions that used in both client and server side**
 
