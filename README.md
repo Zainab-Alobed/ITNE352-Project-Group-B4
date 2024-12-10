@@ -150,11 +150,14 @@ It will create a list containing only the information that the client will displ
 
 ![create a list](images/server4.png)
 
-
-5. search
-This function is responsible for receiving clients' requests and responding to them.
+5. handle request
+After receiving a request, this fuction will handle it and return the full response list with source/headlines list
 
 ![create a list](images/server5.png)
+
+6. search
+This function is responsible for receiving clients' requests and responding to them.
+
 
 **Additional functions that used in both client and server side**
 

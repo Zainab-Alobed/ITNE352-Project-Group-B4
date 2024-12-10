@@ -94,6 +94,30 @@ def create_file(client_name, response, list, option):
     with open(file_name, "w", encoding="utf-8") as file:
         json.dump(response, file, ensure_ascii=False, indent=4)
 
+def prepare_list(response, list):
+    """
+    Taking the list of articles/sources and
+    prepare a list with only brief data for
+    only 15 elements
+    """
+    response = response[:15]  # only 15 results
+    prepared_list = []
+
+    for x in response:
+        if list == "headlines":
+            prepared_list.append(
+                {
+                    "name": x["source"].get("name", "unknown"),
+                    "author": x.get("author", "unknown"),
+                    "title": x.get("title", "unkown"),
+                }
+            )
+
+        else:
+            prepared_list.append({"name": x.get("name", "unknown")})
+
+    return prepared_list
+
 def handle_request(list, option, client_name, value=""):
     """
     Checking wether the client is looking for healdlines or
@@ -121,30 +145,6 @@ def handle_request(list, option, client_name, value=""):
         response = full_response.get("sources", [])
 
     return response, full_response
-
-def prepare_list(response, list):
-    """
-    Taking the list of articles/sources and
-    prepare a list with only brief data for
-    only 15 elements
-    """
-    response = response[:15]  # only 15 results
-    prepared_list = []
-
-    for x in response:
-        if list == "headlines":
-            prepared_list.append(
-                {
-                    "name": x["source"].get("name", "unknown"),
-                    "author": x.get("author", "unknown"),
-                    "title": x.get("title", "unkown"),
-                }
-            )
-
-        else:
-            prepared_list.append({"name": x.get("name", "unknown")})
-
-    return prepared_list
 
 def receive_complete_data(socket):
     buffer_size = 4096
