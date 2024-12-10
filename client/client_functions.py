@@ -121,7 +121,7 @@ def Sources_menu():
         print("Invalid selected number! Returning to main menu...")
         return -1,-1
 
-def response(main_selection, cs):
+def response(cs,main_selection):
     # Check if the response is JSON which means a valid category, or country, or language
     try:
         response = receive_complete_data(cs)
@@ -277,7 +277,7 @@ def connection(cs):
             # If request is built, send it to the server
             if 'request' in locals():
                 cs.sendall(request.encode("utf-8"))
-                n = response(main_selection, cs)
+                n = response(cs,main_selection)
 
                 if n == -1:
                     continue
