@@ -11,7 +11,6 @@ import re
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
-cs = None
 
 
 def get_local_ip():
