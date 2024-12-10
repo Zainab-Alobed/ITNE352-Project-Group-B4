@@ -289,7 +289,6 @@ def main():
 
     # Create a TCP socket using IPv4
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_s:
-        global cs
         with context.wrap_socket(client_s, server_hostname="myserver") as cs:
             try:
                 cs.connect((get_local_ip(), 5353))
@@ -310,22 +309,5 @@ def main():
             except Exception as e:
                 print(f"Error: {e}")
 
-
-# safely close connection
-def close_session(signal_received, frame):
-
-    try:
-        cs.sendall("Quit".encode("utf-8"))
-        print("\nSession closed. Goodbye!")
-    except Exception as e:
-        print(f"Error while closing session: {e}")
-    finally:
-        sys.exit(0)
-
-
 if __name__ == "__main__":
-    try:
-        main()
-    # handle a user interrupt (Ctrl+C).
-    except KeyboardInterrupt:
-        close_session()
+    main()
