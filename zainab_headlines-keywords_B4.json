@@ -1,0 +1,84 @@
+{
+    "status": "ok",
+    "totalResults": 6,
+    "articles": [
+        {
+            "source": {
+                "id": "t3n",
+                "name": "T3n"
+            },
+            "author": "Jörn Brien",
+            "title": "Bitcoin im Höhenflug: Wird die Kryptowährung das Gold des 21. Jahrhunderts?",
+            "description": "Wird Bitcoin in absehbarer Zeit Gold die Rolle als sicheres Investment in unsicheren Zeiten abluchsen? Was Fan",
+            "url": "https://t3n.de/news/bitcoin-hoehenflug-gold-21-jahrhundert-1662203/",
+            "urlToImage": "https://t3n.de/news/wp-content/uploads/2024/01/bitcoin.jpg",
+            "publishedAt": "2024-12-09T17:55:00Z",
+            "content": "Schon seit Jahren erklären Fans den Bitcoin in regelmäßigen Abständen zum Gold der Zukunft  also zum sicheren Hafen für Anleger:innen in stürmischen Zeiten. Bisher konnte die Kryptowährung dieses Ver… [+2376 chars]"
+        },
+        {
+            "source": {
+                "id": "business-insider",
+                "name": "Business Insider"
+            },
+            "author": "Filip De Mott",
+            "title": "MicroStrategy rally could push bitcoin investing at Microsoft, Amazon",
+            "description": "MicroStrategy CEO Michael Saylor argued that Microsoft could add as much as $4.9 trillion to its market value by buying bitcoin.",
+            "url": "https://markets.businessinsider.com/news/currencies/microstrategy-crypto-bitcoin-rally-saylor-microsoft-amazon-shareholders-inflation-cryptocurrency-2024-12?_gl&#x3D;1*s7c0o1*_ga*MTQwNDU1NzEzMS4xNjkyMjgzNDcy*_ga_E21CV80ZCZ*MTczMzc1NDMzMy4xNTkuMS4xNzMzNzY2OTY2LjM0LjAuMA..",
+            "urlToImage": "https://i.insider.com/65edbf416080194819fe7ae3?width=1000&format=jpeg",
+            "publishedAt": "2024-12-09T16:12:37Z",
+            "content": "MicroStrategy's triple-digit gains spurred by its bitcoin buying strategy this year have caught the attention of Big Tech shareholders. Now, Microsoft and Amazon investors could decide to push the te… [+2395 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "[Removed]"
+            },
+            "author": null,
+            "title": "[Removed]",
+            "description": "[Removed]",
+            "url": "https://removed.com",
+            "urlToImage": null,
+            "publishedAt": "2024-12-09T13:35:00+00:00",
+            "content": "[Removed]"
+        },
+        {
+            "source": {
+                "id": "crypto-coins-news",
+                "name": "Crypto Coins News"
+            },
+            "author": null,
+            "title": "Ethereum Drives Record-Breaking $3.85B Crypto Investment Inflows",
+            "description": "Crypto investments hit a record $3.85B inflow last week, boosting total assets to $165B, led by Bitcoin and Ethereum's milestone surge.",
+            "url": "https://www.ccn.com/news/crypto/ethereum-drives-record-crypto-investment-inflows/",
+            "urlToImage": "https://www.ccn.com/wp-content/uploads/2024/12/etheruem-coinshares-report-cover.webp",
+            "publishedAt": "2024-12-09T13:07:18.4952849Z",
+            "content": "Key Takeaways\r\n<ul><li>Ethereum experienced significant inflows last week.</li><li>Solana faced consecutive weeks of outflows, indicating potential concerns or waning interest.</li><li>The broader bl… [+2569 chars]"
+        },
+        {
+            "source": {
+                "id": "crypto-coins-news",
+                "name": "Crypto Coins News"
+            },
+            "author": null,
+            "title": "Bitcoin Bears Take Over as Price Falls Below $100K — $114K Still Within Reach",
+            "description": "The Bitcoin price has fallen below $100,000, though the wave count suggests another upward movement is likely.",
+            "url": "https://www.ccn.com/analysis/crypto/btc-bears-price-falls-whats-next/",
+            "urlToImage": "https://www.ccn.com/wp-content/uploads/2024/12/btc-decline.webp",
+            "publishedAt": "2024-12-09T12:43:39Z",
+            "content": "Key Takeaways\r\n<ul><li>Bitcoin (BTC) reached an all-time high of $103,647 on Dec. 5.</li><li>The price has fallen since, declining below $100,000.</li><li>When will the Bitcoin price reverse its shor… [+3891 chars]"
+        },
+        {
+            "source": {
+                "id": "the-verge",
+                "name": "The Verge"
+            },
+            "author": "David Pierce",
+            "title": "Why OpenAI now says AGI won’t matter much",
+            "description": "The Gemini, ChatGPT, Claude race continues, HBO and Disney are just doing cable again, and the rapid rise of bitcoin, on this episode of The Vergecast",
+            "url": "http://www.theverge.com/2024/12/6/24314746/agi-openai-sam-altman-cable-subscription-vergecast",
+            "urlToImage": "https://cdn.vox-cdn.com/thumbor/hF465pcrW0l4mF8oxwueEP-exO4=/0x0:2040x1360/1200x628/filters:focal(1020x680:1021x681)/cdn.vox-cdn.com/uploads/chorus_asset/file/25775770/VRG_VST_1206_Site.jpg",
+            "publishedAt": "2024-12-06T13:53:46Z",
+            "content": "AGI is coming and nobody cares\r\nAGI is coming and nobody cares\r\n / On The Vergecast: the goalpost-moving AI industry, cable is once again so back, and a bit on our new subscription.\r\nByDavid Pierce, … [+2287 chars]"
+        }
+    ]
+}

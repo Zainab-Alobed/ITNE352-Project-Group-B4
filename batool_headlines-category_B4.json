@@ -1,0 +1,201 @@
+{
+    "status": "ok",
+    "totalResults": 70,
+    "articles": [
+        {
+            "source": {
+                "id": null,
+                "name": "MacRumors"
+            },
+            "author": "Juli Clover",
+            "title": "Apple Seeds Second Release Candidate Versions of iOS 18.2 and More With Genmoji, Image Playground and ChatGPT Integration - MacRumors",
+            "description": "Apple today seeded the second release candidate versions of upcoming iOS 18.2, iPadOS 18.2, and macOS 15.2 updates to developers and public beta...",
+            "url": "https://www.macrumors.com/2024/12/09/apple-seeds-ios-18-2-second-rc/",
+            "urlToImage": "https://images.macrumors.com/t/u419F9T-2zXWL5Hkvaw4AqK7ZBg=/2500x/article-new/2024/10/Generic-iOS-18.2-Feature-Real-Mock.jpg",
+            "publishedAt": "2024-12-09T18:06:36Z",
+            "content": "Apple today seeded the second release candidate versions of upcoming iOS 18.2, iPadOS 18.2, and macOS 15.2 updates to developers and public beta testers for testing purposes, a week after releasing t… [+5323 chars]"
+        },
+        {
+            "source": {
+                "id": "techcrunch",
+                "name": "TechCrunch"
+            },
+            "author": "Kyle Wiggers",
+            "title": "OpenAI's Sora video generator is launching for ChatGPT Pro and Plus subscribers — but not in the EU - TechCrunch",
+            "description": "Judging by a new support page, it seems that users in the EU and the UK won't get access to Sora, OpenAI's video generator, at launch.",
+            "url": "https://techcrunch.com/2024/12/09/openais-sora-video-generator-might-not-be-available-in-the-eu-at-launch/",
+            "urlToImage": "https://techcrunch.com/wp-content/uploads/2024/05/openAI-spiral-color-v2.jpg?resize=1200,675",
+            "publishedAt": "2024-12-09T18:06:00Z",
+            "content": "Subscribers to OpenAI’s ChatGPT Pro and Plus plans will get access to Sora, OpenAI’s video generator, starting today but only if they live in certain countries.\r\nDuring a livestream Monday afternoon,… [+3877 chars]"
+        },
+        {
+            "source": {
+                "id": "ars-technica",
+                "name": "Ars Technica"
+            },
+            "author": "Kyle Orland",
+            "title": "“AI-driven” anti-phishing complaint briefly takes down itch.io website - Ars Technica",
+            "description": "Domain registrar failed to respond after offending content was taken down.",
+            "url": "https://arstechnica.com/gaming/2024/12/itch-io-platform-briefly-goes-down-to-ai-driven-anti-phishing-report/",
+            "urlToImage": "https://cdn.arstechnica.net/wp-content/uploads/2024/12/itchio.png",
+            "publishedAt": "2024-12-09T17:25:41Z",
+            "content": null
+        },
+        {
+            "source": {
+                "id": "the-verge",
+                "name": "The Verge"
+            },
+            "author": "Sheena Vasani",
+            "title": "Google’s Pixel Tablet has returned to its Black Friday all-time low price - The Verge",
+            "description": "The Google Pixel Tablet starts at $279 at Amazon, down from $399. The new Kindle Paperwhite and UE Wonderboom 4 are also on sale.",
+            "url": "https://www.theverge.com/2024/12/9/24317037/google-pixel-tablet-ue-wonderboom-4-deal-sale",
+            "urlToImage": "https://cdn.vox-cdn.com/thumbor/D_6h5DQ3CX3TgYqwbb_ZOX5t1-s=/0x0:2040x1360/1200x628/filters:focal(1020x680:1021x681)/cdn.vox-cdn.com/uploads/chorus_asset/file/24836039/236705_Google_Pixel_Tablet_DSeifert_0007.jpg",
+            "publishedAt": "2024-12-09T17:11:27Z",
+            "content": "Googles Pixel Tablet has returned to its Black Friday all-time low price\r\nGoogles Pixel Tablet has returned to its Black Friday all-time low price\r\n / We also found deals on the latest Kindle Paperwh… [+2918 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Nintendo Life"
+            },
+            "author": "Nintendo Life",
+            "title": "Review: Legacy Of Kain: Soul Reaver 1 & 2 Remastered (Switch) - Raziel Returns With A Feature-Packed Pair - Nintendo Life",
+            "description": "Soul survivor",
+            "url": "https://www.nintendolife.com/reviews/switch-eshop/legacy-of-kain-soul-reaver-1-and-2-remastered",
+            "urlToImage": "https://images.nintendolife.com/reviews/switch-eshop/legacy-of-kain-soul-reaver-1-and-2-remastered/1280x720.jpg",
+            "publishedAt": "2024-12-09T17:00:00Z",
+            "content": "Subscribe to Nintendo Life on YouTube788k\r\nThe blood-soaked jewels in the crown of a storied cult franchise, Soul Reaver and its sequel were praised on release for original gameplay and stellar visua… [+6381 chars]"
+        },
+        {
+            "source": {
+                "id": "ign",
+                "name": "IGN"
+            },
+            "author": "Wesley Yin-Poole",
+            "title": "Cyberpunk 2077 Gets Surprise Update 2.2, CD Projekt 'Still Has Some Gas in the Tank' - IGN",
+            "description": "Cyberpunk 2077 developer CD Projekt was thought to have moved on from the game and onto other projects such as The Witcher 4 and the Cyberpunk sequel, but it’s just surprised fans by confirming yet another significant patch is on the way.",
+            "url": "https://www.ign.com/articles/cyberpunk-2077-gets-surprise-update-22-cd-projekt-still-has-some-gas-in-the-tank",
+            "urlToImage": "https://assets1.ignimgs.com/2020/08/10/cyberpunk-2077-blogroll-lizzie-1597049899858.png?width=1280",
+            "publishedAt": "2024-12-09T16:24:40Z",
+            "content": "Cyberpunk 2077 developer CD Projekt was thought to have moved on from the game and onto other projects such as The Witcher 4 and the Cyberpunk sequel, but its just surprised fans by confirming yet an… [+3395 chars]"
+        },
+        {
+            "source": {
+                "id": "ign",
+                "name": "IGN"
+            },
+            "author": "Will Borger",
+            "title": "Mighty Morphin Power Rangers: Rita’s Rewind Review - IGN",
+            "description": "This beat 'em up nails the look and feel of both Power Rangers and its arcade game inspirations.",
+            "url": "https://www.ign.com/articles/mighty-morphin-power-rangers-ritas-rewind-review",
+            "urlToImage": "https://assets-prd.ignimgs.com/2024/12/09/mighty-morphin-power-rangers-ritas-rewind-blogroll-1733760206585.jpg?width=1280",
+            "publishedAt": "2024-12-09T16:21:01Z",
+            "content": "Some things are just meant to be. Peanut butter and chocolate. Movie theaters and popcorn. The Cleveland Browns and failure. By all rights, Power Rangers and a mid-90s arcade beat em up should also b… [+9287 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Fortnite.com"
+            },
+            "author": null,
+            "title": "Introducing a New Text Chat Experience in Fortnite - Fortnite",
+            "description": "We have redesigned text chat and are expanding its availability to all Fortnite islands starting December 10.",
+            "url": "https://www.fortnite.com/news/introducing-a-new-text-chat-experience-in-fortnite?lang=en-US",
+            "urlToImage": "https://cdn2.unrealengine.com/fortnite-text-chat-social-1920x1080-0dfa952bb7ee.jpg",
+            "publishedAt": "2024-12-09T16:09:57Z",
+            "content": "We have redesigned text chat and are expanding its availability to all Fortnite islands starting December 10. Creators can now choose to include text chat in their islands so players can socialize an… [+2672 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "[Removed]"
+            },
+            "author": null,
+            "title": "[Removed]",
+            "description": "[Removed]",
+            "url": "https://removed.com",
+            "urlToImage": null,
+            "publishedAt": "2024-12-09T16:00:00Z",
+            "content": "[Removed]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Kotaku"
+            },
+            "author": "Ethan Gach",
+            "title": "Path Of Exile 2 Already Has Major Nerfs After Just Three Days: 'It's Better To Do This Early' - Kotaku",
+            "description": "Supercharged Slam and other skills have been rebalanced in a series of hotfixes",
+            "url": "https://kotaku.com/path-exile-2-poe-slam-magnetic-salvo-gas-nerf-hotfix-1851716544",
+            "urlToImage": "https://i.kinja-img.com/image/upload/c_fill,h_675,pg_1,q_80,w_1200/10e4ff4c1865939e33a1782d133779e9.jpg",
+            "publishedAt": "2024-12-09T15:55:00Z",
+            "content": "Diablo-like Path Of Exile 2is finally out in Early Access and taking over the charts, breaking records on Steam even as its servers buckle under the weight of its long-anticipated debut. And the team… [+3045 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Eurogamer.net"
+            },
+            "author": "Vikki Blake",
+            "title": "Infinity Nikki has topped 10 million downloads in just four days - Eurogamer",
+            "description": "Infinity Nikki - the cute and cosy dress-up game with an open-world and gacha elements - has topped 10 million download…",
+            "url": "https://www.eurogamer.net/infinity-nikki-has-topped-10-million-downloads-in-just-four-days",
+            "urlToImage": "https://assetsio.gnwcdn.com/Infinity_Nikki_Wishfield_Journal_Header.jpg?width=1200&height=630&fit=crop&enable=upscale&auto=webp",
+            "publishedAt": "2024-12-09T15:31:19Z",
+            "content": "Infinity Nikki - the cute and cosy dress-up game with an open-world and gacha elements - has topped 10 million downloads.\r\nTo mark the milestone, all players will get a special bonus of 10 Resonite C… [+1625 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "[Removed]"
+            },
+            "author": null,
+            "title": "[Removed]",
+            "description": "[Removed]",
+            "url": "https://removed.com",
+            "urlToImage": null,
+            "publishedAt": "2024-12-09T15:30:28Z",
+            "content": "[Removed]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Nintendo Life"
+            },
+            "author": "Alana Hagues",
+            "title": "Indie RPG Hit 'Chained Echoes' Announces 'Ashes Of Elrant' DLC - Nintendo Life",
+            "description": "Includes new areas, a new playable character, and fishing!",
+            "url": "https://www.nintendolife.com/news/2024/12/indie-rpg-hit-chained-echoes-announces-ashes-of-elrant-dlc",
+            "urlToImage": "https://images.nintendolife.com/ef30dcbb457c2/1280x720.jpg",
+            "publishedAt": "2024-12-09T15:30:00Z",
+            "content": "Subscribe to Nintendo Life on YouTube788k\r\nTwo years after the hit indie RPG Chained Echoes released, developer Matthias Linda now having formed Umami Tiger, his new development studio has announced … [+1008 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Kotaku"
+            },
+            "author": "Brian Barnett",
+            "title": "How To Punch Fascists Even Better In Indiana Jones And The Great Circle - Kotaku",
+            "description": "Punch 'em, whip 'em, hit 'em with the butt of your gun",
+            "url": "https://kotaku.com/indiana-jones-great-circle-bethesda-melee-combat-whip-1851716360",
+            "urlToImage": "https://i.kinja-img.com/image/upload/c_fill,h_675,pg_1,q_80,w_1200/73eac3aefbdcf5c999d32c400b81ebf8.jpg",
+            "publishedAt": "2024-12-09T15:30:00Z",
+            "content": "Indiana Jones is known for a few things. The hat. The whip. Archaeology. But one of the things hes best known for is punching fascists (Nazi, or otherwise).\r\nIf you want to take your fisticuffs game … [+2336 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "VG247"
+            },
+            "author": "Robert Anderson",
+            "title": "Xbox Game Pass Ultimate just got an massive 50% discount ready for Indiana Jones - VG247",
+            "description": "Xbox Game Pass Ultimate is 50% off today.",
+            "url": "https://www.vg247.com/xbox-game-pass-ultimate-woot-indiana-jones-new-deal-50-off",
+            "urlToImage": "https://assetsio.gnwcdn.com/xbox-game-pass-best-deal-vg247.png?width=1200&height=630&fit=crop&enable=upscale&auto=webp",
+            "publishedAt": "2024-12-09T15:29:47Z",
+            "content": "What's this strange feeling of... optimism? Indiana Jones is good. It's better than good, it's great. So do you fancy playing it? It's on Game Pass, I mean of course it is. Just for you, I've found t… [+1982 chars]"
+        }
+    ]
+}
