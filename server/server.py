@@ -6,19 +6,14 @@ import requests
 import ssl
 import os
 
-"""  
-savind API key and base url
-"""
+# savind API key and base url
 API_KEY = "4abb7da35b8346dfa7f1f20b5bc353e7"
 BASE_URL = "https://newsapi.org/v2"
 
-"""
-for SSL/TLS we need to save the certificate and key paths
-"""
+# for SSL/TLS we need to save the certificate and key paths"""
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
-
 
 def get_headlines(option, value):
     """
@@ -49,7 +44,6 @@ def get_headlines(option, value):
         return {"API_error": "API error, check the connection"}
 
 
-# all headlines search function
 def get_all_headlines():
     """
     All headlines have different endpoint which is /everything
@@ -79,7 +73,6 @@ def get_sources(option, value):
     elif option == "language":
         params["language"] = value
 
-    # get response from endpoint and return it
     try:
         response = requests.get(f"{BASE_URL}/sources", params=params)
         if response.status_code != 200:
@@ -171,20 +164,14 @@ def receive_complete_data(socket):
 
 def search(sock):
     """
-    This method is to handle connection with the clients
+    This method is to handle connection with the clients by
+    getting their requests and response to them
     """
     try:
-        """
-        recieve client name and print it
-        """
         client_name = receive_complete_data(sock)
         print(f"New client connected {client_name}. Awating requests...")
 
         while True:
-            """
-            get requests from the clients and response to them within the loop
-            """
-
             try:
                 data = receive_complete_data(sock)
                 data = data.split(",")
@@ -196,34 +183,24 @@ def search(sock):
             if data[0] == "Quit":
                 break
 
-            """
-            split the request th know the exact option the client choosed
-            """
+            # split the request th know the exact option the client choosed
             list = data[0].strip()  # resource or headline
             option = data[1].strip()  # search with what (category/language....)
 
-            """ 
-            get the list depending on the client choice headline/source
-            """
+            # get the list depending on the client choice headline/source
             response, full_response = handle_request(
                 list, option, client_name, data[2].strip() if 2 < len(data) else ""
             )
 
-            """
-            save the result in json file
-            """
+            # save the result in json file
             create_file(client_name, full_response, list, option)
 
-            """
-            If failed to connect the the api and code was not 200
-            """
+            # If failed to connect the the api and code was not 200
             if "API_error" in full_response:
                 sock.sendall(response["API_error"])
                 continue
 
-            """
-            repare and send a list to respond, or send no result message
-            """
+            # repare and send a list to respond, or send no result message
             if response:
                 prepared_list = prepare_list(response, list)
                 sock.sendall(json.dumps(prepared_list).encode("utf-8"))
@@ -245,9 +222,7 @@ def search(sock):
                 continue
 
             elif select.isdigit() and 1 <= int(select) <= len(response):
-                """
-                The condition ensure a valid select from user
-                """
+                # The condition ensure a valid select from user
                 sock.sendall(
                     json.dumps(response[int(select) - 1], ensure_ascii=False).encode(
                         "utf-8"
