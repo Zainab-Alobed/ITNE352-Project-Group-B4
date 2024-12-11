@@ -138,6 +138,9 @@ def handle_request(list, option, client_name, value=""):
 
 
 def receive_complete_data(socket):
+    '''
+    To ensure that all data have been recievd
+    '''
     buffer_size = 4096
     data = b""
     while True:
@@ -225,6 +228,10 @@ def search(sock):
 
 # get local ip address
 def get_local_ip():
+    '''
+    Getting local IP by creating a socket and connect it to
+    a public server
+    '''
     try:
         # Connect to an external server to get the local IP
         hostname = "8.8.8.8"  # Google's public DNS server
@@ -238,6 +245,10 @@ def get_local_ip():
 
 
 def main():
+    '''
+    Creating the socket and wrap it with ssl then accept clients
+    using multithreading
+    '''
     try:
         # craete SSL context
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -255,20 +266,17 @@ def main():
                 client_count = 0
                 threads = []
 
-                # accepting connection from 5 clients
+                # accepting connection from clients
                 while True:
                     sock, sockname = secure_socket.accept()
                     thread = threading.Thread(target=search, args=(sock,))
                     threads.append(thread)
                     thread.start()
-                    client_count += 1
-                    if client_count == 5:
-                        break
 
-                for thread in threads:
-                    thread.join()
+    except KeyboardInterrupt:
+        print("server is closing")
+        exit()
 
-                print("Server is closing")
     except Exception as e:
         print(
             f"Error starting server: Please check the" 
