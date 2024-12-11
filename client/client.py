@@ -2,8 +2,6 @@ import socket
 import json
 import ssl
 import os
-import signal
-import sys
 import re
 
 # for SSL/TLS

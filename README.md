@@ -127,8 +127,8 @@ The client can choose a specific headline/source from the list to get more infor
 
 - Functions:  
 
-1. get_headlines + get_all_headlines  
-Those two functions are responsible for retrieving headlines from API endpoints /everything and //top-headlines
+1. get_headlines  
+This functions is responsible for retrieving headlines from API endpoint /top-headlines
 
 ![get headlines](images/server1.png)
 

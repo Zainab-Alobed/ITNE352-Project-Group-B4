@@ -15,7 +15,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CERT_FILE = os.path.join(BASE_DIR, "../project.crt")
 KEY_FILE = os.path.join(BASE_DIR, "../project.key")
 
-def get_headlines(option, value):
+
+def get_headlines(option, value=""):
     """
     This function is for getting headlined from the endpoint
     /top-headlines with specific criteria chosed by the client
@@ -29,7 +30,8 @@ def get_headlines(option, value):
         params["category"] = value
     elif option == "country":
         params["country"] = value
-
+    elif option == "all":
+        params["q"] = '" "'
     try:
         response = requests.get(f"{BASE_URL}/top-headlines", params=params)
         if response.status_code != 200:
@@ -39,24 +41,10 @@ def get_headlines(option, value):
             print(f"Error with API: {response.status_code}, {response.text}")
             return {"error": "API error"}
         return response.json()
-    
+
     except Exception:
         return {"API_error": "API error, check the connection"}
 
-def get_all_headlines():
-    """
-    All headlines have different endpoint which is /everything
-    """
-    params = {"apiKey": API_KEY, "pageSize": 15, "language": "en", "q": "news"}
-    try:
-        response = requests.get(f"{BASE_URL}/everything", params=params)
-        if response.status_code != 200:
-            print(f"Error with API: {response.status_code}, {response.text}")
-            return {"error": "API error"}
-        return response.json()
-    
-    except Exception:
-        return {"API_error": "API error, check the connection"}
 
 def get_sources(option, value):
     """
@@ -77,9 +65,10 @@ def get_sources(option, value):
             print(f"Error with API: {response.status_code}, {response.text}")
             return {"error": "API error"}
         return response.json()
-    
+
     except Exception:
         return {"API_error": "API error, check the connection"}
+
 
 def create_file(client_name, response, list, option):
     """
@@ -93,6 +82,7 @@ def create_file(client_name, response, list, option):
     )
     with open(file_name, "w", encoding="utf-8") as file:
         json.dump(response, file, ensure_ascii=False, indent=4)
+
 
 def prepare_list(response, list):
     """
@@ -118,6 +108,7 @@ def prepare_list(response, list):
 
     return prepared_list
 
+
 def handle_request(list, option, client_name, value=""):
     """
     Checking wether the client is looking for healdlines or
@@ -126,12 +117,11 @@ def handle_request(list, option, client_name, value=""):
     if list == "headlines":
         if option == "all":
             print(f"client {client_name} requested to search for all {list}")
-            full_response = get_all_headlines()
         else:
             print(
                 f"client {client_name} requested to search for {list} by {option} ({value})"
             )
-            full_response = get_headlines(option, value)
+        full_response = get_headlines(option, value)
         response = full_response.get("articles", [])
 
     elif list == "sources":
@@ -146,6 +136,7 @@ def handle_request(list, option, client_name, value=""):
 
     return response, full_response
 
+
 def receive_complete_data(socket):
     buffer_size = 4096
     data = b""
@@ -155,6 +146,7 @@ def receive_complete_data(socket):
         if len(part) < buffer_size:
             break
     return data.decode("utf-8")
+
 
 def search(sock):
     """
@@ -203,7 +195,7 @@ def search(sock):
                 sock.sendall("No results found. Please try agaim".encode("utf-8"))
                 continue
 
-            #recieve the client selection after displaying the list
+            # recieve the client selection after displaying the list
             select = receive_complete_data(sock).strip()
 
             if select == "Quit":
@@ -230,6 +222,7 @@ def search(sock):
         sock.close()
         print(f"Client {client_name} has disconnected.")
 
+
 # get local ip address
 def get_local_ip():
     try:
@@ -242,6 +235,7 @@ def get_local_ip():
         return ip_address
     except Exception as e:
         return f"Error retrieving IP: {e}"
+
 
 def main():
     try:
@@ -277,8 +271,10 @@ def main():
                 print("Server is closing")
     except Exception as e:
         print(
-            f"Error starting server: Please check the" " certificate and key files: {e}"
+            f"Error starting server: Please check the" 
+            " certificate and key files: {e}"
         )
+
 
 if __name__ == "__main__":
     main()
